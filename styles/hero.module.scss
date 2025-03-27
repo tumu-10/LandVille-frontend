@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 .heroSection {
     position: relative;
     height: 100vh;
@@ -218,6 +218,13 @@
         display: block;
         margin-bottom: 0.5em;
     }
+    .topLine {
+        color: white;
+        display: block;
+        font-size: 30px;
+        padding: 0 10px;
+        margin-bottom: 0.5em;
+    }
     .gradientText {
         background: var(--primary-gradient);
         -webkit-background-clip: text;
@@ -227,29 +234,18 @@
         display: inline-block;
         padding: 0 0.25ch;
     }
-    .cursor {
-        display: inline-block;
-        margin-left: 2px;
-        animation: blink 1s step-end infinite;
-    }
-    @keyframes blink {
-        0%,
-        100% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0;
-        }
-    }
     @media (max-width: 768px) {
         .contentContainer {
             .mainTitle {
                 .titleLine {
                     font-size: clamp(1.5rem, 4vw, 2.5rem);
                 }
+                .topLine {
+                    font-size: clamp(1.3rem, 2vw, 1.25rem);
+                }
             }
-            .subtitle {
-                font-size: clamp(1rem, 2vw, 1.25rem);
+            .gradientText {
+                font-size: clamp(1.7rem, 4vw, 2.5rem);
             }
             .ctaButton {
                 padding: 1rem 2rem;
@@ -263,9 +259,15 @@
                 .titleLine {
                     font-size: clamp(1.5rem, 6vw, 3rem);
                 }
+                .topLine {
+                    font-size: clamp(1rem, 6vw, 3rem);
+                }
             }
             .subtitle {
                 font-size: clamp(0.8rem, 2vw, 1.2rem);
+            }
+            .gradientText {
+                font-size: clamp(1.4rem, 2vw, 1.2rem);
             }
             .ctaButton {
                 padding: 0.8rem 1.5rem;

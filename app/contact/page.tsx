@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
 
-
 const ContactPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -127,7 +126,7 @@ const ContactPage = () => {
         {/* Contact Information Section */}
         <motion.div className={styles.contactInfo}>
           <h1 className={styles.typewriter}>
-            {typedText.split("\n").map((line, index, arr) => (
+            {typedText && typedText.split("\n").map((line, index, arr) => (
               <span key={index}>
                 {line}
                 {index < arr.length - 1 && <br />}

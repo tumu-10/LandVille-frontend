@@ -88,7 +88,7 @@ $desktop-breakpoint: 1024px;
         z-index: 3;
         text-align: center;
         max-width: 800px;
-        padding-top: clamp(4rem, 10vw, 0rem);
+        padding-top: clamp(0.8rem, 10vw, 0rem);
         .gradient-stroke {
             -webkit-text-stroke: 2px $secondary-color;
             color: transparent;
