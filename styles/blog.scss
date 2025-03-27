@@ -1,0 +1,54 @@
+// src/pages/Home.scss
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$dark-color: #343a40;
+$light-color: #f8f9fa;
+.home {
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    section {
+        padding: 50px 20px;
+        text-align: center;
+        position: relative;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease-in-out;
+        &.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    /* Exclusive Services Section Styles with 3D Cards */
+    .exclusive-services {
+        background-color: #0a0a16;
+        color: $light-color;
+        h2 {
+            font-size: clamp(2.5em, 2.5em, 1.5em);
+            margin-bottom: 30px;
+            padding-top: clamp(10%, 15%, 50%);
+        }
+    }
+    /* Media Queries for Responsive Design */
+    @media (max-width: 768px) {
+        .hero .hero-content h1 {
+            font-size: 2.5em;
+        }
+        .real-estate-partner,
+        .get-our-app,
+        .next-big-thing {
+            flex-direction: column;
+            text-align: center;
+            .partner-content,
+            .app-content,
+            .next-content {
+                text-align: center;
+                max-width: 100%;
+            }
+            img {
+                width: 100%;
+                margin-top: 30px;
+            }
+        }
+    }
+}

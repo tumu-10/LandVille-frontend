@@ -1,0 +1,42 @@
+$primary-color: #ff6f61;
+$secondary-color: #f8f8f8;
+$text-color: #333;
+.impact-page {
+    font-family: 'Arial', sans-serif;
+    .hero {
+        background-color: $primary-color;
+        color: white;
+        padding: 50px;
+        text-align: center;
+        .hero-content {
+            h1 {
+                font-size: 3rem;
+            }
+            p {
+                font-size: 1.2rem;
+            }
+        }
+    }
+    .timeline {
+        background-color: $secondary-color;
+        padding: 50px;
+        text-align: center;
+        h2 {
+            font-size: 2rem;
+        }
+        .timeline-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+    }
+    .statistics {
+        padding: 50px;
+        text-align: center;
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+    }
+}

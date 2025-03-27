@@ -1,0 +1,276 @@
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+            $primary-color: #007bff;
+            $secondary-color: #ff8c00;
+            $accent-color: #007bff;
+            $background-color: #0a0a16;
+            $text-color: #007bff;
+            $text-color-hover: #ebf5f3;
+            $gradient: linear-gradient(45deg,
+            $primary-color,
+            $secondary-color);
+            .services-page {
+                font-family: 'Poppins', sans-serif;
+                background-color: $background-color;
+                color: $text-color;
+                padding: 20px;
+                overflow: hidden; // Prevents horizontal scroll
+                padding-top: 5%;
+                .floating-background-elements {
+                    position: fixed;
+                    width: 100vw;
+                    height: 100vh;
+                    top: 0;
+                    left: 0;
+                    pointer-events: none;
+                    z-index: 0;
+                    div {
+                        position: absolute;
+                        font-size: 2.5rem;
+                        opacity: 0.1;
+                        filter: blur(1px);
+                        animation: float 15s infinite linear;
+                        @keyframes float {
+                            0% {
+                                transform: translateY(0) rotate(0deg);
+                            }
+                            50% {
+                                transform: translateY(-20vh) rotate(180deg);
+                            }
+                            100% {
+                                transform: translateY(0) rotate(360deg);
+                            }
+                        }
+                        &.floating-house {
+                            left: 10%;
+                            top: 20%;
+                            animation-duration: 18s;
+                            animation-delay: 2s;
+                            font-size: 4rem;
+                        }
+                        &.floating-coin {
+                            left: 85%;
+                            top: 30%;
+                            animation-duration: 12s;
+                            animation-delay: 5s;
+                        }
+                        &.floating-graph {
+                            left: 70%;
+                            top: 60%;
+                            animation-duration: 14s;
+                            animation-delay: 1s;
+                            font-size: 3.5rem;
+                        }
+                        &.floating-key {
+                            left: 20%;
+                            top: 70%;
+                            animation-duration: 16s;
+                            animation-delay: 3s;
+                        }
+                        &.floating-document {
+                            left: 50%;
+                            top: 40%;
+                            animation-duration: 13s;
+                            animation-delay: 7s;
+                            font-size: 3rem;
+                        }
+                    }
+                }
+                .services-header {
+                    text-align: center;
+                    margin-bottom: 70px;
+                    padding-top: clamp(4rem, 10vw, 3rem);
+                    .gradient-stroke {
+                        background: linear-gradient(to right, #2a2a72, #ff8c00);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        font-size: clamp(2.5rem, 9vw, 4rem);
+                        line-height: 1;
+                        margin-bottom: 2rem;
+                        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                    }
+                    .gradient-text {
+                        background: linear-gradient(to right, #2a2a72, #ff8c00);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        font-size: clamp(2.5rem, 9vw, 4rem);
+                        opacity: 0.9;
+                    }
+                    p {
+                        font-size: 1.1em;
+                        color: $secondary-color;
+                    }
+                }
+                .services-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 30px;
+                    margin-bottom: 40px;
+                    padding: 0 20px;
+                    .service-card {
+                        background-color: #fff;
+                        border-radius: 15px;
+                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                        overflow: hidden;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        padding: 25px;
+                        position: relative;
+                        z-index: 1;
+                        &:hover {
+                            transform: translateY(-5px);
+                            background: transparent;
+                            border: 0px solid $primary-color;
+                            color: $text-color-hover;
+                            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+                            &::before {
+                                opacity: 1;
+                                transform: scale(1.1);
+                            }
+                        }
+                        img,
+                        video {
+                            width: 100%;
+                            height: 200px;
+                            object-fit: cover;
+                            margin-bottom: 15px;
+                            border-radius: 10px;
+                            display: block;
+                        }
+                        h3 {
+                            font-size: 1.6em;
+                            color: $primary-color;
+                            margin-bottom: 10px;
+                        }
+                        p {
+                            font-size: 1.1em;
+                            color: $secondary-color;
+                            margin-bottom: 15px;
+                            line-height: 1.6;
+                        }
+                        ul {
+                            list-style: none;
+                            padding: 0;
+                            li {
+                                font-size: 1em;
+                                color: $text-color;
+                                margin-bottom: 8px;
+                                position: relative;
+                                padding-left: 25px;
+                                &::before {
+                                    content: '•';
+                                    position: absolute;
+                                    left: 0;
+                                    color: $secondary-color;
+                                    font-size: 1.2em;
+                                }
+                            }
+                        }
+                    }
+                }
+                .interactive-map {
+                    text-align: center;
+                    margin-bottom: 40px;
+                    h2 {
+                        font-size: 2.5em;
+                        background: linear-gradient(to right, #2a2a72, #ff8c00);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        margin-bottom: 8px;
+                    }
+                    .p {
+                        font-size: 1.1em;
+                        color: $secondary-color;
+                        margin-bottom: 20px;
+                    }
+                    .map-container {
+                        width: 80%;
+                        margin: 0 auto;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                        img {
+                            width: 100%;
+                            height: auto;
+                            display: block;
+                        }
+                    }
+                }
+                .call-to-action {
+                    text-align: center;
+                    padding: 50px 20px;
+                    background: linear-gradient(to right, rgba($primary-color, 0.9), rgba($accent-color, 0.9));
+                    color: #fff;
+                    border-radius: 15px;
+                    margin-bottom: 40px;
+                    h2 {
+                        font-size: 2.2em;
+                        margin-bottom: 15px;
+                        color: #fcc522;
+                    }
+                    p {
+                        font-size: 1.2em;
+                        margin-bottom: 25px;
+                        opacity: 0.8;
+                    }
+                    button {
+                        background-color: #fff;
+                        color: $primary-color;
+                        border: none;
+                        padding: 15px 30px;
+                        font-size: 1.1em;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease, color 0.3s ease;
+                        &:hover {
+                            background-color: $accent-color;
+                            color: #fff;
+                        }
+                    }
+                }
+                .react-three-fiber-background {
+                    height: 300px;
+                    background-color: #eee;
+                    border-radius: 10px;
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: $secondary-color;
+                    font-style: italic;
+                }
+                @media (max-width: 768px) {
+                    padding: 10px;
+                    .services-header {
+                        h1 {
+                            font-size: 2em;
+                            padding-top: 17%;
+                        }
+                        p {
+                            font-size: 1em;
+                        }
+                    }
+                    .services-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                        padding: 0 10px;
+                    }
+                    .interactive-map {
+                        .map-container {
+                            width: 100%;
+                        }
+                    }
+                    .call-to-action {
+                        padding: 30px 15px;
+                        h2 {
+                            font-size: 1.8em;
+                        }
+                        p {
+                            font-size: 1.1em;
+                            color: #fdcf45;
+                        }
+                        button {
+                            padding: 12px 24px;
+                            font-size: 1em;
+                        }
+                    }
+                }
+            }

@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+.serviceSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-around; // Changed to space-around
+    gap: 4rem;
+    padding: 6rem 8%;
+    background: linear-gradient(135deg, #0d0d14, #1c1c2e);
+    color: white;
+    min-height: 90vh;
+    position: relative;
+    overflow: hidden; // Hide overflowing shapes
+    .backgroundShapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none; // Allow clicking through shapes
+        .circleShape,
+        .squareShape,
+        .triangleShape {
+            position: absolute;
+            background: rgba(168, 146, 255, 0.15); // Purple tint with transparency
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            z-index: 0; // Behind content
+        }
+        .squareShape {
+            border-radius: 10px;
+            width: 120px;
+            height: 120px;
+            background: rgba(139, 122, 238, 0.1);
+        }
+        .triangleShape {
+            width: 0;
+            height: 0;
+            border-left: 75px solid transparent;
+            border-right: 75px solid transparent;
+            border-bottom: 130px solid rgba(139, 122, 238, 0.05);
+            border-radius: 0;
+            top: auto;
+            bottom: 0;
+            left: 30%;
+            transform: translateX(-50%);
+        }
+        .circleShape {
+            top: 20%;
+            left: 10%;
+        }
+    }
+    .textContainer {
+        flex: 1;
+        max-width: 550px;
+        z-index: 1; // Ensure text is above shapes
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem; // Add some spacing below the heading
+            color: #8d8b8b;
+            span {
+                color: #9176fd;
+            }
+        }
+        p {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: white;
+            margin-top: 1rem;
+            line-height: 1.7;
+        }
+        .serviceButton {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 2.5rem;
+            padding: 1rem 2.5rem;
+            background: #a892ff;
+            color: #121212;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2; // Ensure button is clickable
+            &:hover {
+                background: #8f7ae5;
+                transform: translateY(-3px);
+            }
+            .arrowIcon {
+                margin-left: 0.7rem;
+                font-size: 1rem;
+            }
+        }
+    }
+    .imageContainer {
+        flex: 1;
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        .mainImage {
+            max-width: 420px;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); // Add a subtle shadow
+        }
+        .floatingIcon {
+            position: absolute;
+            top: 10%;
+            right: -30px;
+            width: 60px;
+            animation: rotateIcon 10s linear infinite; //Slower rotation for a smoother feel
+            z-index: 2;
+        }
+        @keyframes rotateIcon {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+}
+
+
+/* Responsive Styles */
+
+@media (max-width: 1024px) {
+    .serviceSection {
+        flex-direction: column;
+        text-align: center;
+        padding: 4rem 5%;
+        gap: 3rem;
+    }
+    .textContainer {
+        max-width: 100%;
+        h1 {
+            font-size: 2.8rem;
+        }
+        p {
+            font-size: 1rem;
+        }
+    }
+    .imageContainer {
+        .mainImage {
+            max-width: 320px;
+        }
+        .floatingIcon {
+            width: 60px;
+            top: -20px;
+            right: 10px;
+        }
+    }
+    .backgroundShapes {
+        .circleShape,
+        .squareShape,
+        .triangleShape {
+            width: 100px;
+            height: 100px;
+        }
+        .triangleShape {
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 90px solid rgba(139, 122, 238, 0.05);
+        }
+    }
+}

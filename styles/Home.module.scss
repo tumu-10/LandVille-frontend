@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+.heroSection {
+    --primary-gradient: linear-gradient(135deg, #FF8C00 0%, #FF5700 100%);
+    --content-padding: clamp(1rem, 5vw, 4rem);
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+    .backgroundVideo {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        filter: brightness(0.4);
+    }
+    .particlesContainer {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+    }
+    .contentContainer {
+        position: relative;
+        z-index: 3;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        padding: var(--content-padding);
+    }
+    .textContent {
+        max-width: 1440px;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+    }
+    .mainTitle {
+        font-family: 'Inter', sans-serif;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: clamp(1rem, 3vw, 2rem);
+        .titleLine {
+            display: block;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 0.5em;
+        }
+        .gradientText {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            display: inline-block;
+            padding: 0 0.25ch;
+        }
+    }
+    .subtitle {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        max-width: 720px;
+        margin: 0 auto clamp(2rem, 5vw, 3rem);
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        .highlight {
+            color: #FF8C00;
+            font-weight: 600;
+            position: relative;
+            padding: 0 0.3ch;
+            &::before {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: currentColor;
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
+            }
+            &:hover::before {
+                transform: scaleX(1);
+            }
+        }
+    }
+    .ctaWrapper {
+        display: inline-block;
+        position: relative;
+    }
+    .ctaButton {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: clamp(0.875rem, 2vw, 1.25rem) clamp(1.5rem, 4vw, 2.5rem);
+        border-radius: 100px;
+        border: none;
+        background: var(--primary-gradient);
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: clamp(1rem, 1.5vw, 1.125rem);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 87, 0, 0.4);
+            &::after {
+                opacity: 1;
+            }
+            .ctaIcon {
+                transform: translateY(3px);
+            }
+        }
+    }
+    .ctaIcon {
+        transition: transform 0.3s ease;
+    }
+    .scrollIndicator {
+        position: absolute;
+        bottom: clamp(1rem, 3vw, 2rem);
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.875rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 4;
+    }
+    .scrollLine {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(to bottom, #fff 20%, transparent 80%);
+    }
+    @media (max-width: 768px) {
+        .mainTitle {
+            .titleLine {
+                margin-bottom: 0.25em;
+            }
+        }
+        .ctaButton {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .particlesContainer {
+            canvas {
+                opacity: 0.5;
+            }
+        }
+    }
+    @media (max-width: 480px) {
+        .backgroundVideo {
+            filter: brightness(0.3);
+        }
+        .gradientText {
+            line-height: 1.2;
+        }
+        .subtitle {
+            max-width: 90%;
+        }
+    }
+}
+
+
+/* Header - Appears Only in Hero Section */
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1rem 5%;
+    transition: transform 0.4s ease-in-out;
+    z-index: 10;
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .logo img {
+            max-width: 90px;
+            height: auto;
+        }
+        .navLinks {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            li a {
+                font-size: 1rem;
+                font-weight: bold;
+                text-decoration: none;
+                background: linear-gradient(90deg, #ff8c00, #ff5700);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                transition: opacity 0.3s ease-in-out;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}
+
+
+/* Hide header when scrolling past hero section */
+
+.hide {
+    transform: translateY(-100%);
+}
+
+.show {
+    transform: translateY(0);
+}
+
+
+/* Responsive Styles */
+
+.vectorIcon {
+    position: absolute;
+    height: 2.22%;
+    width: 1.39%;
+    top: 39.78%;
+    right: 92.78%;
+    bottom: 58%;
+    left: 5.83%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+
+.vectorIcon1 {
+    position: absolute;
+    height: 2%;
+    width: 1.09%;
+    top: 49.56%;
+    right: 93.08%;
+    bottom: 48.44%;
+    left: 5.83%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+
+.riinstagramFillIcon {
+    position: absolute;
+    top: 266px;
+    left: 84px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}

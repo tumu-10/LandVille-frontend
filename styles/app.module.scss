@@ -1,0 +1,239 @@
+@use "sass:color";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$dark-color: #343a40;
+$light-color: #f8f9fa;
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: rotate(45deg) translateX(-50%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(50%);
+    }
+}
+
+.browseApp {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #0a0a16 30%, #1b1b2f 100%);
+    padding: 10rem 8rem;
+    color: white;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent 45%, rgba(255, 140, 0, 0.1) 50%, transparent 55%);
+        animation: shine 8s infinite linear;
+        z-index: 0;
+    }
+    .textSection {
+        max-width: 50%;
+        z-index: 1;
+        h5 {
+            font-size: 1.1rem;
+            color: #a6a6a6;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+            line-height: 1.2;
+            color: #0071bc;
+            min-height: 4.5rem;
+        }
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin: 1rem 0 2rem;
+            color: #ffffff;
+            min-height: 3.5rem;
+            line-height: 1.3;
+            .accentText {
+                color: #ff8c00; // Match download button color
+                background: none;
+                -webkit-background-clip: initial;
+                background-clip: initial;
+            }
+        }
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.3em;
+            background: #00b4ff;
+            margin-left: 4px;
+            animation: blink 0.8s infinite;
+            transition: all 0.3s;
+            &.deleting {
+                background: #ff4444;
+                animation: blink-fast 0.4s infinite;
+            }
+        }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            color: #d0d0d0;
+            max-width: 85%;
+        }
+        .downloadButtons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            .downloadButton {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: linear-gradient(45deg, $dark-color 30%, color.adjust($dark-color, $lightness: 10%));
+                color: #ff8c00;
+                padding: 12px 20px;
+                font-size: 1rem;
+                font-weight: 600;
+                border-radius: 12px;
+                text-decoration: none;
+                transition: all 0.3s;
+                backdrop-filter: blur(4px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                position: relative;
+                overflow: hidden;
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                    transition: 0.5s;
+                }
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 15px rgba(255, 140, 0, 0.3);
+                    &::before {
+                        left: 100%;
+                    }
+                    img {
+                        transform: rotate(360deg);
+                    }
+                }
+                img {
+                    width: 28px;
+                    height: 28px;
+                    transition: transform 0.3s ease;
+                }
+            }
+        }
+    }
+    .phoneMockup {
+        width: 360px;
+        filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+        animation: float 4s ease-in-out infinite;
+        border-radius: 15px;
+    }
+    @keyframes blink {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
+    @keyframes blink-fast {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.3;
+        }
+    }
+    @media (max-width: 1440px) {
+        padding: 8rem 6rem;
+        h1 {
+            font-size: 3rem;
+        }
+        h2 {
+            font-size: 2.4rem;
+        }
+        .phoneMockup {
+            width: 320px;
+        }
+    }
+    @media (max-width: 1024px) {
+        flex-direction: column;
+        padding: 6rem 4rem;
+        text-align: center;
+        .textSection {
+            max-width: 100%;
+            margin-bottom: 4rem;
+            p {
+                max-width: 100%;
+                margin: 0 auto 3rem;
+            }
+            .downloadButtons {
+                justify-content: center;
+            }
+        }
+        .phoneMockup {
+            width: 280px;
+            margin-top: 2rem;
+        }
+    }
+    @media (max-width: 768px) {
+        padding: 4rem 2rem;
+        h1 {
+            font-size: 2.4rem !important;
+            margin: 1.5rem 0;
+        }
+        h2 {
+            font-size: 2rem !important;
+            margin: 1.5rem 0 2rem;
+        }
+        .downloadButton {
+            padding: 0.8rem 1.5rem !important;
+            font-size: 1rem !important;
+        }
+        .phoneMockup {
+            width: 240px;
+        }
+    }
+    @media (max-width: 480px) {
+        padding: 3rem 1.5rem;
+        h1 {
+            font-size: 2rem !important;
+            min-height: 3.5rem;
+        }
+        h2 {
+            font-size: 1.8rem !important;
+            min-height: 3rem;
+        }
+        .downloadButtons {
+            gap: 12px !important;
+            .downloadButton {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+}

@@ -1,0 +1,276 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400&display=swap");
+.heroSection {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .backgroundVideo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        filter: brightness(0.5);
+    }
+    .threeCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+    .particlesContainer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+    }
+    // SCSS File
+    .floatingBubbles {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        z-index: 3;
+        pointer-events: none;
+        overflow: hidden;
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: float 12s infinite cubic-bezier(0.4, 0, 0.6, 1);
+            opacity: 0;
+            &::before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background: radial-gradient( circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+            }
+            // Individual Bubble Styles
+            &1 {
+                width: 120px;
+                height: 120px;
+                top: 15%;
+                left: 10%;
+                background: radial-gradient( circle at 50% 50%, hsla(210, 100%, 70%, 0.4) 0%, hsla(210, 100%, 50%, 0.2) 70%, transparent 100%);
+                box-shadow: 0 0 40px hsla(210, 100%, 50%, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.2);
+                animation-delay: 1s;
+            }
+            &2 {
+                width: 180px;
+                height: 180px;
+                top: 50%;
+                right: 15%;
+                background: radial-gradient( circle at 50% 50%, hsla(30, 100%, 70%, 0.4) 0%, hsla(30, 100%, 50%, 0.2) 70%, transparent 100%);
+                box-shadow: 0 0 60px hsla(30, 100%, 50%, 0.2), inset 0 0 30px rgba(255, 255, 255, 0.2);
+                animation-delay: 4s;
+            }
+            &3 {
+                width: 100px;
+                height: 100px;
+                bottom: 20%;
+                left: 30%;
+                background: radial-gradient( circle at 50% 50%, hsla(150, 100%, 70%, 0.4) 0%, hsla(150, 100%, 50%, 0.2) 70%, transparent 100%);
+                box-shadow: 0 0 30px hsla(150, 100%, 50%, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.2);
+                animation-delay: 7s;
+            }
+        }
+    }
+    @keyframes float {
+        0%,
+        100% {
+            transform: translateY(0) rotateX(0deg) rotateY(0deg);
+            opacity: 0;
+            filter: blur(4px);
+        }
+        20% {
+            opacity: 0.8;
+            filter: blur(2px);
+        }
+        50% {
+            transform: translateY(-40px) rotateX(15deg) rotateY(10deg) scale(1.1);
+            opacity: 1;
+        }
+        80% {
+            opacity: 0.8;
+            filter: blur(2px);
+        }
+    }
+    .contentContainer {
+        position: relative;
+        z-index: 4;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 0 1rem;
+        padding-top: clamp(8rem, 0.5rem, 1rem);
+        .textContent {
+            max-width: 1440px;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+        }
+        .mainTitle {
+            font-family: "Inter", sans-serif;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: clamp(1rem, 3vw, 2rem);
+        }
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            max-width: 720px;
+            margin: 0 auto clamp(2rem, 5vw, 3rem);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            .highlight {
+                color: #FF8C00;
+                font-weight: 600;
+                position: relative;
+                padding: 0 0.3ch;
+                &::before {
+                    content: "";
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background: currentColor;
+                    transform: scaleX(0);
+                    transition: transform 0.2s ease;
+                }
+                &:hover::before {
+                    transform: scaleX(1);
+                }
+            }
+        }
+        .ctaWrapper {
+            display: inline-block;
+            position: relative;
+        }
+        .ctaButton {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: clamp(0.875rem, 2vw, 1.25rem) clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: 100px;
+            border: none;
+            background: var(--primary-gradient);
+            color: #fff;
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            font-size: clamp(1rem, 1.5vw, 1.125rem);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2));
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(255, 87, 0, 0.4);
+                &::after {
+                    opacity: 1;
+                }
+                .ctaIcon {
+                    transform: translateY(3px);
+                }
+            }
+        }
+        .ctaIcon {
+            transition: transform 0.3s ease;
+        }
+    }
+    .scrollIndicator {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
+        .scrollLine {
+            width: 2px;
+            height: 30px;
+            background: #fff;
+            border-radius: 1px;
+        }
+    }
+    /* Typewriter Effect */
+    .typewriter {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+    .titleLine {
+        color: white;
+        display: block;
+        margin-bottom: 0.5em;
+    }
+    .gradientText {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        display: inline-block;
+        padding: 0 0.25ch;
+    }
+    .cursor {
+        display: inline-block;
+        margin-left: 2px;
+        animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
+    @media (max-width: 768px) {
+        .contentContainer {
+            .mainTitle {
+                .titleLine {
+                    font-size: clamp(1.5rem, 4vw, 2.5rem);
+                }
+            }
+            .subtitle {
+                font-size: clamp(1rem, 2vw, 1.25rem);
+            }
+            .ctaButton {
+                padding: 1rem 2rem;
+                font-size: 1.2rem;
+            }
+        }
+    }
+    @media (max-width: 480px) {
+        .contentContainer {
+            .mainTitle {
+                .titleLine {
+                    font-size: clamp(1.5rem, 6vw, 3rem);
+                }
+            }
+            .subtitle {
+                font-size: clamp(0.8rem, 2vw, 1.2rem);
+            }
+            .ctaButton {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    }
+}
