@@ -166,7 +166,7 @@ const ContactPage = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className={styles.inputGroup}>
-            <input id="name" name="name" type="text" required />
+            <input id="name" name="to_email" value="landvilleventures@gmail.com" type="text" required />
             <label htmlFor="name">Your Name</label>
           </div>
 
