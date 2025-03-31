@@ -126,12 +126,13 @@ const ContactPage = () => {
         {/* Contact Information Section */}
         <motion.div className={styles.contactInfo}>
           <h1 className={styles.typewriter}>
-            {typedText && typedText.split("\n").map((line, index, arr) => (
-              <span key={index}>
-                {line}
-                {index < arr.length - 1 && <br />}
-              </span>
-            ))}
+            {typedText &&
+              typedText.split("\n").map((line, index, arr) => (
+                <span key={index}>
+                  {line}
+                  {index < arr.length - 1 && <br />}
+                </span>
+              ))}
             <span className={styles.cursor}>|</span>
           </h1>
           <p>
@@ -140,8 +141,8 @@ const ContactPage = () => {
           </p>
 
           <div className={styles.links}>
-            <a href="mailto:Landvilleventures@gmail.com">
-              <FiMail className={styles.icon} /> LandVilleventures@gmail.com
+            <a href="mailto:landvilleventures@gmail.com">
+              <FiMail className={styles.icon} /> landvilleventures@gmail.com
             </a>
             <a
               href="https://www.google.com/maps/place/Kyanja+Mall/@0.3957122,32.5951815,15.04z/data=!4m6!3m5!1s0x177db12d98a508d3:0xe23ffa68c188c230!8m2!3d0.3953297!4d32.5933825!16s%2Fg%2F11l1_rvjwq?entry=ttu&g_ep=EgoyMDI1MDIyNC4wIKXMDSoASAFQAw%3D%3D"
@@ -165,6 +166,9 @@ const ContactPage = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
+          {/* Hidden input to always send to landvilleventures@gmail.com */}
+          <input type="hidden" name="to_email" value="landvilleventures@gmail.com" />
+
           <div className={styles.inputGroup}>
             <input id="name" name="name" type="text" required />
             <label htmlFor="name">Your Name</label>
@@ -180,7 +184,7 @@ const ContactPage = () => {
             <label htmlFor="message">Your Message</label>
           </div>
 
-          <button type="submit" value="landvilleventures@gmail.com" >Send Message</button>
+          <button type="submit">Send Message</button>
 
           <AnimatePresence>
             {status !== "idle" && (
