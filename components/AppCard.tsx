@@ -3,53 +3,105 @@ import React, { useState, useEffect } from "react";
 import styles from "@/styles/app.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 
-const useTypewriterEffect = (text: string, delay: number) => {
+// --- Custom Hook for Typewriter Effect ---
+const useTypewriterEffect = (text: string, startDelay: number = 0) => {
   const [displayText, setDisplayText] = useState("");
-  const [phase, setPhase] = useState<"typing" | "pausing" | "deleting">("typing");
+  const [phase, setPhase] = useState<"idle" | "typing" | "pausing" | "deleting">("idle");
 
   useEffect(() => {
+    let initialTimeout: NodeJS.Timeout;
+    // Start the effect after the initial delay
+    if (phase === "idle") {
+      initialTimeout = setTimeout(() => setPhase("typing"), startDelay);
+    }
+
+    return () => clearTimeout(initialTimeout);
+  }, [startDelay, phase]);
+
+
+  useEffect(() => {
+    if (phase === 'idle') return; // Don't run timeouts if idle
+
     let timeout: NodeJS.Timeout;
 
-    if (phase === "typing" && displayText.length < text.length) {
-      timeout = setTimeout(() => {
-        setDisplayText(text.slice(0, displayText.length + 1));
-      }, 120);
-    } else if (phase === "typing") {
-      timeout = setTimeout(() => setPhase("pausing"), 2000);
-    } else if (phase === "pausing") {
-      timeout = setTimeout(() => setPhase("deleting"), 1500);
-    } else if (phase === "deleting" && displayText.length > 0) {
-      timeout = setTimeout(() => {
-        setDisplayText(text.slice(0, displayText.length - 1));
-      }, 60);
-    } else if (phase === "deleting") {
-      timeout = setTimeout(() => setPhase("typing"), 1000);
+    switch (phase) {
+      case "typing":
+        if (displayText.length < text.length) {
+          timeout = setTimeout(() => {
+            setDisplayText(text.slice(0, displayText.length + 1));
+          }, 80); // Slightly faster typing
+        } else {
+          // Finished typing, move to pausing
+          timeout = setTimeout(() => setPhase("pausing"), 2000); // Pause duration after typing
+        }
+        break;
+
+      case "pausing":
+        // Just wait, then move to deleting
+        timeout = setTimeout(() => setPhase("deleting"), 1500); // Pause duration before deleting
+        break;
+
+      case "deleting":
+        if (displayText.length > 0) {
+          timeout = setTimeout(() => {
+            setDisplayText(text.slice(0, displayText.length - 1));
+          }, 50); // Slightly faster deleting
+        } else {
+          // Finished deleting, cycle back to typing
+          timeout = setTimeout(() => setPhase("typing"), 500); // Pause duration after deleting
+        }
+        break;
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, phase, text]);
+  }, [displayText, phase, text]); // Rerun effect when these change
 
-  return { displayText, phase };
+  return displayText; // Only return the text, phase is internal now
 };
 
+
+// --- Component ---
 const BrowseApp = () => {
-  const heading1 = useTypewriterEffect("Browse Propatiz", 0);
-  const heading2 = useTypewriterEffect("From Your Smartphone", 2500);
+  // Use the hook for both headings, potentially staggering the start
+  const heading1Text = useTypewriterEffect("Browse Propatiz", 500); // Start after 500ms
+  const heading2Text = useTypewriterEffect("From Your Smartphone", 2500); // Start later
   const [imageUrl, setImageUrl] = useState<string>("/pro1.png"); // Default fallback image
+
+  // Character animation variants
+  const characterVariant = {
+    hidden: { opacity: 0, y: 10 },
+    visible: (i: number) => ({ // Pass custom index 'i' for staggered delay
+        opacity: 1,
+        y: 0,
+        transition: {
+            delay: i * 0.04, // Stagger delay based on character index
+            duration: 0.3,   // Duration of single character animation
+        },
+    }),
+    exit: {
+        opacity: 0,
+        y: -5, // Optional: slight up movement on exit
+        transition: {
+            duration: 0.1, // Faster exit
+        }
+    }
+  };
+
 
   useEffect(() => {
     const fetchImage = async () => {
       try {
+        // Ensure you replace localhost with your actual API domain if deploying
         const response = await fetch("http://localhost:8000/api/property");
         if (response.ok) {
           const data = await response.json();
           if (data && data.img_url) {
-            setImageUrl(data.img_url); // Set the dynamic image URL
+            setImageUrl(data.img_url);
           } else {
-            console.error("Invalid data structure:", data);
+            console.error("Invalid data structure from API:", data);
           }
         } else {
-          console.error("Failed to fetch image from API");
+          console.error("Failed to fetch image from API, Status:", response.status);
         }
       } catch (error) {
         console.error("Error fetching image:", error);
@@ -65,66 +117,61 @@ const BrowseApp = () => {
         className={styles.textSection}
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <motion.h5
-          initial={{ y: 20 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }} // Slight delay after section appears
         >
           GET OUR APP
         </motion.h5>
 
+        {/* Heading 1 with smooth character animation */}
         <h1>
-          <AnimatePresence mode="wait">
-            {heading1.displayText.split("").map((char, index) => (
+          <AnimatePresence mode="popLayout"> {/* Use popLayout for smoother reflows */}
+            {heading1Text.split("").map((char, index) => (
               <motion.span
-                key={index}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, delay: index * 0.05 }}
+                key={`${char}-${index}`} // More robust key
+                custom={index} // Pass index to variants
+                variants={characterVariant}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                style={{ display: 'inline-block' }} // Prevents layout jumps
               >
-                {char}
+                {char === " " ? "\u00A0" : char} {/* Render non-breaking space for spaces */}
               </motion.span>
             ))}
           </AnimatePresence>
-          <span
-            className={`${styles.cursor} ${
-              heading1.phase === "deleting" ? styles.deleting : ""
-            }`}
-          ></span>
+           {/* No Cursor Span */}
         </h1>
 
+        {/* Heading 2 with smooth character animation and accent */}
         <h2>
-          <AnimatePresence mode="wait">
-            {heading2.displayText.split("").map((char, index) => (
+          <AnimatePresence mode="popLayout">
+            {heading2Text.split("").map((char, index) => (
               <motion.span
-                key={index}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, delay: index * 0.03 }}
+                key={`${char}-${index}`}
+                custom={index}
+                variants={characterVariant}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                style={{ display: 'inline-block' }}
+                className={index >= "From Your ".length ? styles.accentText : ""} // Apply accent style
               >
-                {index >= "From Your ".length ? (
-                  <span className={styles.accentText}>{char}</span>
-                ) : (
-                  char
-                )}
+                 {char === " " ? "\u00A0" : char}
               </motion.span>
             ))}
           </AnimatePresence>
-          <span
-            className={`${styles.cursor} ${
-              heading2.phase === "deleting" ? styles.deleting : ""
-            }`}
-          ></span>
+           {/* No Cursor Span */}
         </h2>
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
+          transition={{ delay: 3.5, duration: 0.6 }} // Delay until after second heading likely appears
         >
           Use our mobile app today to find the best <br />
           property deals available.
@@ -132,21 +179,27 @@ const BrowseApp = () => {
 
         <div className={styles.downloadButtons}>
           <motion.a
-            href="/blog"
+            href="/blog" // Consider updating href if it's not a blog link
             className={styles.downloadButton}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3.8, duration: 0.4 }}
           >
-            <img src="/icons/apple-14.svg" alt="iOS" />
+            <img src="/icons/apple-14.svg" alt="iOS App Store" />
             <span>Download for iOS</span>
           </motion.a>
           <motion.a
-            href="/blog"
+            href="/blog" // Consider updating href
             className={styles.downloadButton}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 4.0, duration: 0.4 }}
           >
-            <img src="/icons/android-logo-2.svg" alt="Android" />
+            <img src="/icons/android-logo-2.svg" alt="Android Google Play" />
             <span>Download for Android</span>
           </motion.a>
         </div>
@@ -154,14 +207,15 @@ const BrowseApp = () => {
 
       <motion.img
         src={imageUrl}
-        alt="Phone Mockup"
+        alt="Propatiz App Phone Mockup"
         className={styles.phoneMockup}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        initial={{ opacity: 0, scale: 0.8, x: 50 }} // Start slightly from the right
+        animate={{ opacity: 1, scale: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }} // Delay slightly
         whileHover={{
-          rotate: [0, -3, 3, -3, 0],
-          transition: { duration: 0.8 },
+          rotate: [0, -2, 2, -2, 0], // Subtle rotation
+          scale: 1.02,             // Slight scale up
+          transition: { duration: 0.6, ease: "easeInOut" },
         }}
       />
     </section>

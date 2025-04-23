@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import styles from "@/styles/contact.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
+import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 
 const ContactPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
