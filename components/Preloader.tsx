@@ -16,7 +16,7 @@ export default function Preloader() {
     const timer = window.setTimeout(() => {
       setVisible(false);
       setInitialLoad(false);
-    }, initialLoad ? 7200 : 2200);
+    }, initialLoad ? 3500 : 2200);
     return () => window.clearTimeout(timer);
   }, [initialLoad, visible]);
 
