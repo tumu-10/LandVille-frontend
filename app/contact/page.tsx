@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Talk with LandVille Ventures about your real estate and property goals in Uganda.",
-};
+export const metadata = createPageMetadata(
+  "Contact",
+  "Contact LandVille Ventures in Kampala, Uganda, about real estate, property development, surveying, management, and consultancy.",
+  "/contact",
+);
 
 export default function ContactPage() {
   return <ContactForm />;

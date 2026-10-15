@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./about.module.scss";
 import WordCycle from "@/components/WordCycle";
 import PropertyFilm from "@/components/PropertyFilm";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "Meet LandVille Ventures: a Ugandan company bringing real estate, development, and technology together.",
-};
+export const metadata = createPageMetadata(
+  "About",
+  "Meet LandVille Ventures, a Kampala-based Ugandan company bringing real estate, property development, and technology together.",
+  "/about",
+);
 
 const leadership = [
   {

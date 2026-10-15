@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./services.module.scss";
 import WordCycle from "@/components/WordCycle";
 import ServiceOrbit from "@/components/ServiceOrbit";
 import PropertyFilm from "@/components/PropertyFilm";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description: "Explore LandVille Ventures' property sales, construction, surveying, management, and real estate consultancy services.",
-};
+export const metadata = createPageMetadata(
+  "Property Services in Uganda",
+  "Explore LandVille Ventures' real estate, land sales, property development, construction, surveying, property management, and consultancy services in Uganda.",
+  "/services",
+);
 
 const services = [
   {
