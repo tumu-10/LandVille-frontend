@@ -106,7 +106,6 @@
   width: 86%;
   height: 86%;
   border-style: dashed;
-  animation: orbit-turn 70s linear infinite;
 }
 
 .innerOrbit {
@@ -114,6 +113,24 @@
   height: 55%;
   border-color: rgba(255, 140, 0, 0.23);
   box-shadow: 0 0 35px rgba(255, 140, 0, 0.06);
+}
+
+.orbitingNodes {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: nodes-orbit 32s linear infinite;
+}
+
+.orbitingNodes:hover,
+.orbitingNodes:focus-within {
+  animation-play-state: paused;
+}
+
+.orbitPaused,
+.orbitPaused .orbitNode span {
+  animation-play-state: paused;
 }
 
 .orbitCore {
@@ -148,6 +165,7 @@
 
 .orbitNode {
   position: absolute;
+  z-index: 1;
   top: 50%;
   left: 50%;
   display: grid;
@@ -159,12 +177,20 @@
   background: #11151d;
   color: #c1c3c8;
   cursor: pointer;
-  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(var(--orbit-radius, 150px) * -1)) rotate(calc(var(--angle) * -1));
+  pointer-events: auto;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(var(--orbit-offset, -150px));
   transition: color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
 }
 
 .orbitNode span {
+  display: block;
   font-size: 10px;
+  animation: counter-orbit 32s linear infinite;
+}
+
+.orbitingNodes:hover .orbitNode span,
+.orbitingNodes:focus-within .orbitNode span {
+  animation-play-state: paused;
 }
 
 .orbitNode:hover,
@@ -269,11 +295,46 @@
 }
 
 .orbitKey {
-  display: none;
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
 }
 
-@keyframes orbit-turn {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+.orbitKey button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.02);
+  color: #b6b8be;
+  font-size: 9px;
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+
+.orbitKey button span {
+  color: var(--orange);
+  font-size: 8px;
+}
+
+.orbitKey button:hover,
+.orbitKey button:focus-visible,
+.orbitKey .keyActive {
+  border-color: rgba(255, 140, 0, 0.58);
+  background: rgba(255, 140, 0, 0.08);
+  color: #fff;
+}
+
+@keyframes nodes-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes counter-orbit {
+  from { transform: rotate(var(--counter-angle)); }
+  to { transform: rotate(var(--counter-angle)) rotate(-360deg); }
 }
 
 @keyframes feature-appear {
@@ -300,7 +361,7 @@
   }
 
   .orbitNode {
-    --orbit-radius: 140px;
+    --orbit-offset: -140px;
   }
 }
 
@@ -327,7 +388,7 @@
 
   .orbitNode {
     width: 42px;
-    --orbit-radius: min(120px, 35vw);
+    --orbit-offset: max(-120px, -35vw);
   }
 
   .orbitCore {
@@ -345,32 +406,7 @@
   }
 
   .orbitKey {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 7px;
-  }
-
-  .orbitKey button {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 9px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: transparent;
-    color: #b6b8be;
-    font-size: 8px;
-    cursor: pointer;
-  }
-
-  .orbitKey button span {
-    color: var(--orange);
-    font-size: 7px;
-  }
-
-  .orbitKey .keyActive {
-    border-color: rgba(255, 140, 0, 0.58);
-    color: #fff;
+    grid-column: 1;
   }
 }
 
@@ -381,7 +417,7 @@
 
   .orbitNode {
     width: 38px;
-    --orbit-radius: min(104px, 35vw);
+    --orbit-offset: max(-104px, -35vw);
   }
 
   .orbitCore {
@@ -390,7 +426,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .outerOrbit {
+  .orbitingNodes,
+  .orbitNode span {
     animation: none;
   }
 }

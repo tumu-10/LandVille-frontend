@@ -11,33 +11,30 @@ export const metadata = createPageMetadata(
   "/about",
 );
 
-const leadership = [
+const values = [
   {
     number: "01",
-    name: "Barigye Moses",
-    title: "Chief Executive Officer",
-    shortTitle: "CEO",
-    image: "/CEO.jpg",
-    focus: "Vision & direction",
-    description: "Setting the vision and guiding LandVille's long-term direction.",
+    title: "Excellence",
+    accent: "Craft + standards",
+    description: "We raise the bar in every detail, from the first discussion to the final handover.",
   },
   {
     number: "02",
-    name: "Tumusiime Samuel Robin",
-    title: "Managing Director",
-    shortTitle: "MD",
-    image: "/MD.jpg",
-    focus: "Operations & growth",
-    description: "Turning strategy into thoughtful work, strong partnerships, and progress.",
+    title: "Customer care",
+    accent: "People first",
+    description: "We listen carefully, communicate clearly, and stay close to your journey at every step.",
   },
   {
     number: "03",
-    name: "Aquino Amaya",
-    title: "Chief Administrator",
-    shortTitle: "CA",
-    image: "/Admin.jpg",
-    focus: "People & practice",
-    description: "Creating the structure and care that keep every detail moving.",
+    title: "Trust & integrity",
+    accent: "Honest guidance",
+    description: "Every recommendation is grounded in transparency, sound judgment, and long-term value.",
+  },
+  {
+    number: "04",
+    title: "Progress with purpose",
+    accent: "Meaningful growth",
+    description: "We create spaces and opportunities that help people move forward with confidence.",
   },
 ];
 
@@ -50,7 +47,7 @@ export default function AboutPage() {
         <div className={styles.heroContent}>
           <p className={styles.eyebrow}><span /> About LandVille</p>
           <h1>We believe in<br /><em>the promise of <WordCycle words={["place.", "trust.", "growth."]} /></em></h1>
-          <p className={styles.heroText}>A grounded, forward-looking company bringing real estate, development, and new ideas together in Uganda.</p>
+          <p className={styles.heroText}>Building tomorrow&apos;s communities, today. Your gateway to innovation and excellence across real estate, technology, and beyond.</p>
         </div>
         <span className={styles.heroNumber}>OUR STORY&nbsp; / &nbsp;01</span>
       </section>
@@ -79,44 +76,18 @@ export default function AboutPage() {
 
       <section className={styles.values}>
         <div className={styles.valuesIntro}>
-          <div className={styles.sectionLabel}>How we show up</div>
-          <h2>Good things are<br /><em>built on trust.</em></h2>
+          <div className={styles.sectionLabel}>Our values</div>
+          <h2>What we stand<br /><em>for, every day.</em></h2>
+          <p>Every decision we make is guided by quality, clarity, and genuine care for the people we serve.</p>
         </div>
-        <div className={styles.valueList}>
-          <article><span>01</span><div><h3>Care in the details</h3><p>We treat every brief, space, and relationship with the attention it deserves.</p></div></article>
-          <article><span>02</span><div><h3>Progress with purpose</h3><p>We pursue new ideas when they make a real difference to people and place.</p></div></article>
-          <article><span>03</span><div><h3>Partnership that lasts</h3><p>We believe the strongest outcomes are built through openness and shared ambition.</p></div></article>
-        </div>
-      </section>
-
-      <section className={styles.leadership}>
-        <div className={styles.leadershipHeader}>
-          <div>
-            <div className={styles.sectionLabel}>The people behind the work</div>
-            <h2>Clear vision.<br /><em>Considered leadership.</em></h2>
-          </div>
-          <p>Three distinct responsibilities, one shared commitment to moving LandVille forward.</p>
-        </div>
-        <div className={styles.leaderList}>
-          {leadership.map((leader) => (
-            <article className={styles.leader} key={leader.number} tabIndex={0}>
-              <div className={styles.leaderImage}>
-                <Image
-                  className={styles.leaderPortrait}
-                  src={leader.image}
-                  alt={`${leader.name}, ${leader.title}`}
-                  fill
-                  sizes="(max-width: 760px) 100vw, 33vw"
-                />
-                <span className={styles.leaderNumber}>{leader.number}</span>
-                <span className={styles.leaderShort}>{leader.shortTitle}</span>
-              </div>
-              <div className={styles.leaderDetails}>
-                <span>{leader.focus}</span>
-                <h3>{leader.name}</h3>
-                <p><strong>{leader.title}</strong></p>
-                <p className={styles.leaderDescription}>{leader.description}</p>
-              </div>
+        <div className={styles.valueCards}>
+          {values.map(({ number, title, accent, description }) => (
+            <article key={title} className={styles.valueCard}>
+              <span className={styles.valueNumber}>{number} / PRINCIPLE</span>
+              <div className={styles.valueMark} aria-hidden="true"><span /></div>
+              <h3>{title}</h3>
+              <span className={styles.valueAccent}>{accent}</span>
+              <p>{description}</p>
             </article>
           ))}
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +16,21 @@ export type ServiceOrbitItem = {
 
 export default function ServiceOrbit({ services }: { services: ServiceOrbitItem[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [orbitPaused, setOrbitPaused] = useState(false);
   const activeService = services[activeIndex];
+
+  useEffect(() => {
+    if (services.length < 2 || orbitPaused) return;
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setActiveIndex((currentIndex) => (currentIndex + 1) % services.length);
+    }, 5200);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [activeIndex, orbitPaused, services.length]);
 
   if (!activeService) return null;
 
@@ -29,7 +43,21 @@ export default function ServiceOrbit({ services }: { services: ServiceOrbitItem[
         <span className={styles.orbitIndex}>0{activeIndex + 1}<i> / 0{services.length}</i></span>
       </div>
 
-      <div className={styles.orbitExperience}>
+      <div
+        className={styles.orbitExperience}
+        onPointerEnter={(event) => {
+          if (event.pointerType === "mouse") setOrbitPaused(true);
+        }}
+        onPointerLeave={(event) => {
+          if (event.pointerType === "mouse") setOrbitPaused(false);
+        }}
+        onFocusCapture={() => setOrbitPaused(true)}
+        onBlurCapture={(event) => {
+          if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) {
+            setOrbitPaused(false);
+          }
+        }}
+      >
         <div className={styles.orbitGraphic} aria-label="Choose a property service">
           <div className={styles.outerOrbit} />
           <div className={styles.innerOrbit} />
@@ -37,25 +65,30 @@ export default function ServiceOrbit({ services }: { services: ServiceOrbitItem[
             <Image src="/logo 1.png" alt="" width={70} height={70} />
             <span>LANDVILLE</span>
           </div>
-          {services.map((service, index) => {
-            const angle = (360 / services.length) * index - 90;
-            return (
-              <button
-                key={service.category}
-                className={`${styles.orbitNode} ${index === activeIndex ? styles.orbitNodeActive : ""}`}
-                style={{ "--angle": `${angle}deg` } as CSSProperties}
-                type="button"
-                aria-label={`Show ${service.category}`}
-                aria-pressed={index === activeIndex}
-                onClick={() => setActiveIndex(index)}
-              >
-                <span>{`0${index + 1}`}</span>
-              </button>
-            );
-          })}
+          <div className={`${styles.orbitingNodes} ${orbitPaused ? styles.orbitPaused : ""}`}>
+            {services.map((service, index) => {
+              const angle = (360 / services.length) * index - 90;
+              return (
+                <button
+                  key={service.category}
+                  className={`${styles.orbitNode} ${index === activeIndex ? styles.orbitNodeActive : ""}`}
+                  style={{
+                    "--angle": `${angle}deg`,
+                    "--counter-angle": `${-angle}deg`,
+                  } as CSSProperties}
+                  type="button"
+                  aria-label={`Show ${service.category}`}
+                  aria-pressed={index === activeIndex}
+                  onClick={() => setActiveIndex(index)}
+                >
+                  <span>{`0${index + 1}`}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <article className={styles.orbitFeature} key={activeService.category}>
+        <article className={styles.orbitFeature} key={activeService.category} aria-live="polite">
           <div className={styles.featureImage}>
             <Image src={activeService.image} alt={activeService.alt} fill sizes="(max-width: 760px) 90vw, 34vw" />
             <span className={styles.featureCategory}>{activeService.category}</span>

@@ -166,38 +166,141 @@
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
   gap: clamp(45px, 10vw, 150px);
-  background: #10141d;
+  background: linear-gradient(180deg, #10141d 0%, #0d1118 100%);
+}
+
+.valuesIntro {
+  max-width: 430px;
 }
 
 .valuesIntro h2 {
   font-size: clamp(42px, 5.7vw, 70px);
 }
 
-.valueList {
-  border-top: 1px solid var(--line);
+.valuesIntro p {
+  margin: 22px 0 0;
+  color: #a9adb5;
+  font-size: 12px;
+  line-height: 1.9;
 }
 
-.valueList article {
+.valueCards {
   display: grid;
-  grid-template-columns: 38px 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
-  padding: 23px 0;
-  border-bottom: 1px solid var(--line);
 }
 
-.valueList article > span {
+.valueCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  padding: 24px 22px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  overflow: hidden;
+  transform: translateY(8px);
+  opacity: 0;
+  animation: fadeUpCard 600ms ease forwards;
+}
+
+.valueCard:nth-child(2) { animation-delay: 90ms; }
+.valueCard:nth-child(3) { animation-delay: 180ms; }
+.valueCard:nth-child(4) { animation-delay: 270ms; }
+
+.valueCard::before {
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255, 140, 0, 0), rgba(255, 140, 0, 0.9), rgba(255, 140, 0, 0));
+  content: "";
+  opacity: 0.8;
+}
+
+.valueCard::after {
+  position: absolute;
+  top: -26%;
+  right: -18%;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(255, 140, 0, 0.14);
+  border-radius: 50%;
+  content: "";
+  transition: transform 260ms ease, opacity 260ms ease;
+  opacity: 0.4;
+}
+
+.valueCard:hover,
+.valueCard:focus-within {
+  transform: translateY(-4px);
+  border-color: rgba(255, 140, 0, 0.5);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
+}
+
+.valueCard:hover::after,
+.valueCard:focus-within::after {
+  transform: scale(1.12);
+  opacity: 0.9;
+}
+
+.valueNumber {
+  display: inline-flex;
+  margin-bottom: 18px;
   color: var(--orange);
   font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
 }
 
-.valueList h3 {
-  margin: 0 0 7px;
-  font-size: 15px;
-  font-weight: 500;
+.valueMark {
+  display: grid;
+  width: 38px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(255, 140, 0, 0.45);
+  border-radius: 50%;
+  background: rgba(255, 140, 0, 0.08);
+  box-shadow: inset 0 0 18px rgba(255, 140, 0, 0.12);
 }
 
-.valueList p {
+.valueMark span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd79a, #ff8c00);
+}
+
+.valueCard h3 {
+  margin: 18px 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(23px, 2vw, 31px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.valueAccent {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #ffad46;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.valueCard p {
   margin: 0;
+  color: #a9adb5;
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+@keyframes fadeUpCard {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .leadership {
@@ -383,9 +486,16 @@
   }
 }
 
+@media (max-width: 960px) {
+  .values {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+}
+
 @media (max-width: 500px) {
   .heroContent h1 {
-    font-size: 56px;
+    font-size: clamp(38px, 11vw, 56px);
   }
 
   .leaderList {
@@ -399,5 +509,11 @@
   .leaderDetails {
     min-height: 0;
     padding: 19px;
+  }
+}
+
+@media (max-width: 560px) {
+  .valueCards {
+    grid-template-columns: 1fr;
   }
 }
