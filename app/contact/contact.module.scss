@@ -1,0 +1,253 @@
+.contact {
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  min-height: 520px;
+  align-items: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+  background: #121722;
+}
+
+.hero > img {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center 53%;
+}
+
+.heroShade {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(7, 10, 16, 0.88), rgba(7, 10, 16, 0.45) 68%), linear-gradient(0deg, rgba(7, 10, 16, 0.5), transparent 65%);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  width: min(var(--content-width), calc(100% - 2 * clamp(22px, 8vw, 120px)));
+  margin: 0 auto;
+  padding: 160px 0 70px;
+}
+
+.eyebrow,
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #aeb2ba;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.eyebrow > span {
+  width: 22px;
+  height: 1px;
+  background: var(--orange);
+}
+
+.heroContent h1 {
+  margin: 20px 0 15px;
+  color: #fff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(55px, 8vw, 90px);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.99;
+}
+
+.heroContent h1 em,
+.contactDetails h2 em {
+  color: #ffad46;
+  font-weight: 400;
+}
+
+.heroContent > p:last-child {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 13px;
+}
+
+.contactBody {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(45px, 11vw, 150px);
+  padding: clamp(80px, 11vw, 130px) clamp(22px, 8vw, 120px);
+}
+
+.sectionLabel {
+  margin-bottom: 25px;
+  color: #999fa9;
+}
+
+.contactDetails h2 {
+  margin: 0 0 37px;
+  color: var(--paper);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(39px, 5vw, 61px);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1.06;
+}
+
+.contactDetails > a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: fit-content;
+  margin: 20px 0;
+  color: #e7e4dd;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.contactDetails > a:hover {
+  color: #ffad46;
+}
+
+.contactDetails > a svg {
+  color: var(--orange);
+  font-size: 17px;
+}
+
+.contactDetails > a span {
+  display: grid;
+  gap: 4px;
+}
+
+.contactDetails small {
+  color: #888e98;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.locationNote {
+  max-width: 350px;
+  margin: 30px 0 0;
+  color: #878d97;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+}
+
+.form h3 {
+  margin: 0 0 8px;
+  color: #f6f3ee;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 29px;
+  font-weight: 400;
+}
+
+.form > p:first-of-type {
+  margin: 0 0 26px;
+  color: #9da2ab;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.form label {
+  margin: 16px 0 7px;
+  color: #c8c9cc;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  resize: vertical;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: var(--orange);
+  outline: none;
+}
+
+.form button {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 26px;
+  padding: 0 17px;
+  border: 0;
+  background: linear-gradient(110deg, var(--orange), var(--orange-deep));
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: box-shadow 180ms ease, gap 180ms ease;
+}
+
+.form button:hover {
+  box-shadow: 0 8px 24px rgba(255, 105, 0, 0.25);
+}
+
+.form button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.form button span {
+  font-size: 17px;
+}
+
+.form .formNote {
+  margin: 14px 0 0;
+  color: #d7b47e;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.form .formNote[role="alert"] {
+  color: #ffb0a6;
+}
+
+@media (max-width: 760px) {
+  .contactBody {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .contactDetails h2 br {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .hero {
+    min-height: 480px;
+  }
+
+  .heroContent h1 {
+    font-size: 51px;
+  }
+
+  .form {
+    padding: 23px 18px;
+  }
+}

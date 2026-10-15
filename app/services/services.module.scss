@@ -1,0 +1,303 @@
+.services {
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  min-height: 690px;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: #111721;
+}
+
+.hero > img {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center;
+}
+
+.heroShade {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(7, 10, 16, 0.93), rgba(7, 10, 16, 0.55) 54%, rgba(7, 10, 16, 0.2)), linear-gradient(0deg, rgba(7, 10, 16, 0.37), transparent 55%);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  width: min(var(--content-width), calc(100% - 2 * clamp(22px, 8vw, 120px)));
+  margin: 80px auto 0;
+}
+
+.eyebrow,
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #aeb2ba;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.eyebrow > span {
+  width: 22px;
+  height: 1px;
+  background: var(--orange);
+}
+
+.heroContent h1 {
+  margin: 24px 0 20px;
+  color: #fff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(62px, 9vw, 112px);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.98;
+}
+
+.heroContent h1 em,
+.listIntro h2 em,
+.serviceCta h2 em {
+  color: #ffad46;
+  font-weight: 400;
+}
+
+.heroContent > p:not(.eyebrow) {
+  max-width: 420px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.heroLink {
+  display: inline-flex;
+  gap: 22px;
+  margin-top: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 140, 0, 0.6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.heroLink span {
+  color: #ffad46;
+}
+
+.servicesList {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(50px, 9vw, 130px);
+  padding: clamp(90px, 13vw, 160px) clamp(22px, 8vw, 120px);
+  background: #10141d;
+}
+
+.listIntro h2 {
+  margin: 0;
+  color: var(--paper);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 5.6vw, 70px);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+}
+
+.sectionLabel {
+  margin-bottom: 28px;
+  color: #999fa9;
+}
+
+.serviceRows {
+  border-top: 1px solid var(--line);
+}
+
+.serviceRow {
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr) minmax(120px, 190px);
+  align-items: center;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  transition: padding 220ms ease, background 220ms ease;
+}
+
+.serviceRow:hover,
+.serviceRow:focus-visible {
+  padding-right: 14px;
+  padding-left: 14px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.serviceNumber {
+  align-self: start;
+  padding-top: 6px;
+  color: var(--orange);
+  font-size: 10px;
+}
+
+.serviceCopy > span {
+  color: #ffad46;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.serviceCopy h3 {
+  margin: 7px 0 9px;
+  color: #f5f2ec;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(21px, 2.5vw, 30px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.serviceCopy p {
+  max-width: 400px;
+  margin: 0;
+  color: #979da7;
+  font-size: 10px;
+  line-height: 1.75;
+}
+
+.serviceAction {
+  display: inline-flex;
+  max-height: 0;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  overflow: hidden;
+  color: #ffad46;
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0;
+  transition: max-height 220ms ease, margin 220ms ease, opacity 220ms ease;
+}
+
+.serviceAction i {
+  font-size: 14px;
+  font-style: normal;
+}
+
+.serviceRow:hover .serviceAction,
+.serviceRow:focus-visible .serviceAction {
+  max-height: 24px;
+  margin-top: 12px;
+  opacity: 1;
+}
+
+.serviceImage {
+  position: relative;
+  aspect-ratio: 1.45;
+  overflow: hidden;
+  background: #252b35;
+}
+
+.serviceImage img {
+  object-fit: cover;
+  transition: transform 550ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.serviceRow:hover .serviceImage img,
+.serviceRow:focus-visible .serviceImage img {
+  transform: scale(1.07);
+}
+
+.serviceCta {
+  padding: clamp(90px, 12vw, 150px) 22px;
+  text-align: center;
+}
+
+.serviceCta .sectionLabel {
+  justify-content: center;
+}
+
+.serviceCta h2 {
+  margin: 0 0 17px;
+  color: var(--paper);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(44px, 6.7vw, 78px);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1.04;
+}
+
+.serviceCta > p {
+  margin: 0 auto 20px;
+  color: #a9adb5;
+  font-size: 12px;
+}
+
+.ctaLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(255, 140, 0, 0.65);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: gap 180ms ease, color 180ms ease;
+}
+
+.ctaLink span {
+  color: var(--orange);
+  font-size: 17px;
+}
+
+.ctaLink:hover {
+  gap: 24px;
+  color: #ffad46;
+}
+
+@media (max-width: 860px) {
+  .servicesList {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 580px) {
+  .hero {
+    min-height: 630px;
+  }
+
+  .heroContent h1 {
+    font-size: clamp(42px, 11vw, 60px);
+  }
+
+  .serviceRow {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .serviceImage {
+    grid-column: 2;
+    width: 100%;
+    max-height: 220px;
+    aspect-ratio: 1.8;
+    margin-top: 5px;
+  }
+
+  .serviceAction {
+    max-height: 24px;
+    margin-top: 10px;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .serviceImage img {
+    transition: none;
+  }
+}

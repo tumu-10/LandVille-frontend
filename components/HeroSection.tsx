@@ -1,231 +1,104 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useAnimationControls } from "framer-motion";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import styles from "@/styles/hero.module.scss";
-import { FaArrowDown } from "react-icons/fa";
+import WordCycle from "./WordCycle";
 
-interface TypewriterLoopProps {
-    word1: string[];
-    word2: string[];
-    typingSpeed?: number;
-    deletingSpeed?: number;
-    pauseTime?: number;
-  }
-  
-  const TypewriterLoop: React.FC<TypewriterLoopProps> = ({
-    word1,
-    word2,
-    typingSpeed = 120,
-    deletingSpeed = 80,
-    pauseTime = 1000,
-  }) => {
-    const [index, setIndex] = useState(0);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const controls1 = useAnimationControls();
-    const controls2 = useAnimationControls();
-  
-    const currentWord1 = word1[index] || "";
-    const currentWord2 = word2[index] || "";
-  
-    useEffect(() => {
-      const animate = async () => {
-        if (!word1.length || !word2.length) return;
-  
-        if (!isDeleting) {
-          // Animate word1: Reveal fully using clipPath (centered)
-          await controls1.start({
-            clipPath: "inset(0 0% 0 0%)",
-            transition: {
-              duration: (currentWord1.length * typingSpeed) / 1000,
-              ease: "linear",
-            },
-          });
-  
-          // Animate word2: Typewriter effect (width from 0% to 100%)
-          await controls2.start({
-            width: "100%",
-            transition: {
-              duration: (currentWord2.length * typingSpeed) / 1000,
-              ease: "linear",
-            },
-          });
-  
-          await new Promise((resolve) => setTimeout(resolve, pauseTime));
-          setIsDeleting(true);
-        } else {
-          // Animate word2 deletion: Shrink width to 0% so it completely disappears
-          await controls2.start({
-            width: "0%",
-            transition: {
-              duration: (currentWord2.length * deletingSpeed) / 1000,
-              ease: "linear",
-            },
-          });
-  
-          // Animate word1 deletion: Retract using clipPath at a slower pace
-          await controls1.start({
-            clipPath: "inset(0 100% 0 0%)",
-            transition: {
-              duration: (currentWord1.length * (deletingSpeed * 1.5)) / 1000,
-              ease: "linear",
-            },
-          });
-  
-          setIsDeleting(false);
-          setIndex((prev) => (prev + 1) % word1.length);
-        }
-      };
-  
-      animate();
-    }, [
-      isDeleting,
-      index,
-      word1,
-      word2,
-      controls1,
-      controls2,
-      currentWord1,
-      currentWord2,
-      typingSpeed,
-      deletingSpeed,
-      pauseTime,
-    ]);
-  
-    return (
-      <div className={styles.container}>
-        {/* Word1: Centered, using clipPath */}
-        <motion.div
-          className={styles.topLine}
-          initial={{ clipPath: "inset(0 100% 0 0%)" }}
-          animate={controls1}
-          style={{
-            position: "relative",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            width: "fit-content",
-            margin: "0 auto",
-            textAlign: "center",
-          }}
-        >
-          {currentWord1}
-        </motion.div>
-  
-        {/* Word2: Typewriter effect with width animation */}
-        <motion.div
-          className={styles.gradientText}
-          initial={{ width: "0%" }}
-          animate={controls2}
-          style={{
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            marginTop: "0.5rem",
-            textAlign: "center",
-          }}
-        >
-          {currentWord2}
-        </motion.div>
-      </div>
-    );
-  };
-
+const slides = [
+  {
+    image: "/house1.jpg",
+    alt: "A contemporary home glowing warmly at dusk",
+    type: "RESIDENTIAL",
+    title: "A home with room to grow",
+    place: "Kampala, Uganda",
+  },
+  {
+    image: "/apartment.jpg",
+    alt: "A contemporary apartment building with glass balconies",
+    type: "APARTMENTS",
+    title: "A better way to live",
+    place: "Made for modern life",
+  },
+  {
+    image: "/c.jpg",
+    alt: "A contemporary glass-fronted commercial building",
+    type: "DEVELOPMENT",
+    title: "Built for what comes next",
+    place: "A brighter future",
+  },
+];
 
 export default function HeroSection() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"],
-    });
-    const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const [activeSlide, setActiveSlide] = useState(0);
 
-    // State to store dynamic words from the API
-    const [word1, setWord1] = useState<string[]>([]);
-    const [word2, setWord2] = useState<string[]>([]);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % slides.length);
+    }, 6500);
+    return () => window.clearInterval(timer);
+  }, []);
 
-    // State to store the video URL
-    const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const slide = slides[activeSlide];
 
-    // Fetch the video URL and title words from the API
-    useEffect(() => {
-        const fetchVideoAndTitles = async () => {
-            try {
-                // Fetch video URL
-                const videoResponse = await fetch("http://127.0.0.1:8000/api/video");
-                if (videoResponse.ok) {
-                    const videoData = await videoResponse.json();
-                    setVideoUrl(videoData.video_path_url);
-                } else {
-                    console.error("Failed to fetch video");
-                }
-
-                // Fetch title words (word1 and word2)
-                const titleResponse = await fetch("http://127.0.0.1:8000/api/title");
-                if (titleResponse.ok) {
-                    const titleData = await titleResponse.json();
-
-                    // Extract word1 and word2 dynamically from the response
-                    const words1 = titleData.map((item: { word1: string }) => item.word1);
-                    const words2 = titleData.map((item: { word2: string }) => item.word2);
-
-                    setWord1(words1); // Set the dynamic word1 array
-                    setWord2(words2); // Set the dynamic word2 array
-                } else {
-                    console.error("Failed to fetch title data");
-                }
-            } catch (error) {
-                console.error("Error fetching video and titles:", error);
-            }
-        };
-
-        fetchVideoAndTitles();
-    }, []);
-
-    return (
-        <section ref={containerRef} className={styles.heroSection}>
-            {/* Background Video */}
-            <motion.video autoPlay muted loop className={styles.backgroundVideo} style={{ scale }}>
-                {videoUrl ? (
-                    <source src={videoUrl} type="video/mp4" />
-                ) : (
-                    <p>Loading video...</p> // Optional fallback text or content while the video is loading
-                )}
-            </motion.video>
-
-            {/* Particles Overlay */}
-            
-            {/* Three.js Interactive Canvas */}
-           
-            {/* Centered Content Container */}
-            <div className={styles.contentContainer}>
-                <motion.div className={styles.textContent} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }}>
-                    <h1 className={styles.mainTitle}>
-                        <TypewriterLoop word1={word1} word2={word2} />
-                    </h1>
-                    <motion.p className={styles.subtitle} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-                        Transforming landscapes through
-                        <span className={styles.highlight}> smart technology</span> and
-                        <span className={styles.highlight}> sustainable design</span>
-                    </motion.p>
-                    <motion.div className={styles.ctaWrapper} initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.8 }}>
-                        <motion.button
-                            className={styles.ctaButton}
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ duration: 0.8, delay: 1 }}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => window.scrollTo({ top: window.scrollY + window.innerHeight, behavior: "smooth" })}
-                        >
-                            Explore Developments
-                            <FaArrowDown className={styles.ctaIcon} />
-                        </motion.button>
-                    </motion.div>
-                </motion.div>
-            </div>
-
-            {/* Scroll Indicator */}
-            <div className={styles.scrollIndicator}>
-                <motion.div className={styles.scrollLine} animate={{ y: [0, 20], opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 1.5 }} />
-            </div>
-        </section>
-    );
+  return (
+    <section className={styles.hero} aria-labelledby="hero-title">
+      <div className={styles.heroGallery} aria-live="off">
+        {slides.map((item, index) => (
+          <Image
+            key={item.image}
+            className={`${styles.heroImage} ${index === activeSlide ? styles.heroImageActive : ""}`}
+            src={item.image}
+            alt={index === activeSlide ? item.alt : ""}
+            fill
+            priority={index === 0}
+            sizes="100vw"
+          />
+        ))}
+      </div>
+      <div className={styles.imageShade} />
+      <div className={styles.heroInner}>
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}><span /> LandVille Ventures <span className={styles.eyebrowDivider}>/</span> Kampala, Uganda</p>
+          <h1 id="hero-title">A place to<br />begin <em><WordCycle words={["what's next.", "a new chapter.", "your next move."]} /></em></h1>
+          <p className={styles.subtitle}>
+            We bring people, property and possibility together to shape places with a future.
+          </p>
+          <div className={styles.actions}>
+            <Link className={styles.primaryAction} href="/services">
+              Discover what we do <span aria-hidden="true">↗</span>
+            </Link>
+            <Link className={styles.secondaryAction} href="/about">Get to know us</Link>
+          </div>
+        </div>
+        <div className={styles.featureCard}>
+          <span className={styles.featureType}><i /> {slide.type}</span>
+          <strong>{slide.title}</strong>
+          <span className={styles.featurePlace}>{slide.place}</span>
+          <span className={styles.featureDivider} />
+          <div className={styles.slideControls} aria-label="Featured property slides">
+            {slides.map((item, index) => (
+              <button
+                className={index === activeSlide ? styles.slideButtonActive : ""}
+                key={item.image}
+                type="button"
+                aria-label={`Show slide ${index + 1}: ${item.title}`}
+                aria-pressed={index === activeSlide}
+                onClick={() => setActiveSlide(index)}
+              >
+                <span>{`0${index + 1}`}</span>
+                <i />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <a className={styles.scrollCue} href="#our-work" aria-label="Scroll to explore LandVille">
+        <span>Scroll to explore</span><i />
+      </a>
+      <div className={styles.heroStamp} aria-hidden="true">L<span>V</span></div>
+    </section>
+  );
 }

@@ -1,157 +1,130 @@
-"use client";
-import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from "framer-motion";
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import '@/styles/services.scss';
+import styles from "./services.module.scss";
+import WordCycle from "@/components/WordCycle";
+import ServiceOrbit from "@/components/ServiceOrbit";
+import PropertyFilm from "@/components/PropertyFilm";
 
-gsap.registerPlugin(ScrollTrigger);
-
-interface Service {
-  id: number;
-  services_title: string;
-  services_desc: string;
-  sub_services: string[];
-  services_img_url?: string;
-  services_video_url?: string;
-}
-
-const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (cardRef.current) {
-      gsap.fromTo(
-        cardRef.current,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: cardRef.current,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }
-  }, [service]);
-
-  return (
-    <div className="service-card" ref={cardRef}>
-      {service.services_img_url && <img src={service.services_img_url} alt={service.services_title} />}
-      {service.services_video_url && (
-        <video controls loop muted>
-          <source src={service.services_video_url} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
-      <h3>{service.services_title}</h3>
-      <p>{service.services_desc}</p>
-      <ul>
-        {service.sub_services.map((subService, index) => (
-          <li key={index}>{subService}</li>
-        ))}
-      </ul>
-    </div>
-  );
+export const metadata: Metadata = {
+  title: "Services",
+  description: "Explore LandVille Ventures' property sales, construction, surveying, management, and real estate consultancy services.",
 };
 
-const ServicesPage: React.FC = () => {
-  const [services, setServices] = useState<Service[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const services = [
+  {
+    number: "01",
+    category: "Sales & purchase",
+    title: "Find the right place.",
+    description: "Guidance for buying and selling land, homes, and investment property with clarity at every step.",
+    image: "/house.jpeg",
+    alt: "A spacious contemporary home in a tropical setting",
+  },
+  {
+    number: "02",
+    category: "Construction & development",
+    title: "Build what comes next.",
+    description: "From early planning to construction, we help turn promising land and ideas into lasting places.",
+    image: "/d1.jpg",
+    alt: "A builder inspecting a home during construction",
+  },
+  {
+    number: "03",
+    category: "Land surveying",
+    title: "Know your ground.",
+    description: "Practical surveying support to help you understand boundaries, site conditions, and land potential.",
+    image: "/meeting.jpg",
+    alt: "A team reviewing development plans and survey documents",
+  },
+  {
+    number: "04",
+    category: "Property management",
+    title: "Care for your investment.",
+    description: "Reliable oversight that helps owners protect, maintain, and get more from their property.",
+    image: "/apartment.jpg",
+    alt: "A bright, well-kept apartment dining room",
+  },
+  {
+    number: "05",
+    category: "Real estate consultancy",
+    title: "Make your next move clear.",
+    description: "Thoughtful property advice to help you assess opportunities and make informed decisions.",
+    image: "/meeting.jpg",
+    alt: "Property professionals discussing a real estate opportunity",
+  },
+  {
+    number: "06",
+    category: "Technology & innovation",
+    title: "Make the journey clearer.",
+    description: "Exploring useful digital tools that bring people and property closer together.",
+    image: "/download.jpg",
+    alt: "A conceptual property technology app interface",
+  },
+  {
+    number: "07",
+    category: "Equipment importation",
+    title: "Move good ideas forward.",
+    description: "Helping clients navigate equipment sourcing and import needs with a thoughtful, service-led approach.",
+    image: "/meeting.jpg",
+    alt: "Professionals collaborating over development plans",
+  },
+];
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/api/services');
-        if (!response.ok) {
-          throw new Error('Failed to fetch services');
-        }
-        const data = await response.json();
-        // Assuming the API returns an array of services
-        setServices(data);
-      } catch (err: any) {
-        setError(err.message || 'Something went wrong');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServices();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
+export default function ServicesPage() {
   return (
-    <div className="services-page">
-      {/* Add floating background elements */}
-      <div className="floating-background-elements">
-        <div className="floating-house">🏠</div>
-        <div className="floating-coin">💰</div>
-        <div className="floating-graph">🌍</div>
-        <div className="floating-key">🔑</div>
-        <div className="floating-document">📄</div>
-      </div>
-
-      <header className="services-header">
-        <h1>
-          <span className="gradient-stroke">Our Expertise, </span>
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="gradient-text"
-          >
-            Your success.
-          </motion.span>
-        </h1>
-
-        <p>Discover a wide range of real estate services tailored to meet your needs.</p>
-      </header>
-
-      <section className="services-grid">
-        {services.map((service) => (
-          <ServiceCard key={service.id} service={service} />
-        ))}
-      </section>
-
-      <section className="interactive-map">
-        {/* TODO: Implement interactive map here (e.g., Leaflet, Google Maps) */}
-        <h2>Our Location</h2>
-        <Link className="p" href="https://www.google.com/maps/place/Kyanja+Mall">
-          Explore our properties and services in key locations.
-        </Link>
-        <div className="map-container">
-          {/* Placeholder for the map */}
-          <img src="map.png" alt="Interactive Map" />
+    <div className={styles.services}>
+      <section className={styles.hero}>
+        <Image src="/h2.jpg" alt="Modern architecture designed to bring light and space together" fill priority sizes="100vw" />
+        <div className={styles.heroShade} />
+        <div className={styles.heroContent}>
+          <p className={styles.eyebrow}><span /> What we do</p>
+          <h1>One partner.<br /><em>Room to <WordCycle words={["move.", "build.", "grow."]} /></em></h1>
+          <p>From the first question to the next big step, we bring care and clarity to every part of the property journey.</p>
+          <a href="#services-list" className={styles.heroLink}>Explore our services <span aria-hidden="true">↓</span></a>
         </div>
       </section>
 
-      <section className="call-to-action">
-        <h2>Ready to get started?</h2>
-        <p>Contact us today to discuss your real estate goals.</p>
-        <Link href="/contact">
-          <button>Get in Touch</button>
-        </Link>
+      <ServiceOrbit services={services} />
+
+      <PropertyFilm
+        src="/bg%203.mp4"
+        poster="/download.jpg"
+        posterAlt="A LandVille property opportunity"
+        number="02"
+        category="Spaces with potential"
+        title={<>From the ground<br /><em>up and onward.</em></>}
+        description="Explore the spaces and decisions behind a property journey—from understanding the land to shaping a place people can call home."
+      />
+
+      <section className={styles.servicesList} id="services-list">
+        <div className={styles.listIntro}>
+          <div className={styles.sectionLabel}>Our areas of focus</div>
+          <h2>Expertise, connected<br /><em>by one point of view.</em></h2>
+        </div>
+        <div className={styles.serviceRows}>
+          {services.map((service) => (
+            <Link className={styles.serviceRow} href="/contact" key={service.number} aria-label={`Ask us about ${service.category}`}>
+              <div className={styles.serviceNumber}>{service.number}</div>
+              <div className={styles.serviceCopy}>
+                <span>{service.category}</span>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <span className={styles.serviceAction}>Explore this service <i aria-hidden="true">↗</i></span>
+              </div>
+              <div className={styles.serviceImage}>
+                <Image src={service.image} alt={service.alt} fill sizes="(max-width: 760px) 100vw, 28vw" />
+              </div>
+            </Link>
+          ))}
+        </div>
       </section>
 
-      <div className="react-three-fiber-background">
-        {/* Placeholder for React-Three-Fiber component */}
-        <p>Placeholder for 3D background</p>
-      </div>
+      <section className={styles.serviceCta}>
+        <div className={styles.sectionLabel}>Every journey starts somewhere</div>
+        <h2>Tell us what you have<br /><em>in mind.</em></h2>
+        <p>We&apos;ll take the time to understand, then help you find the right next step.</p>
+        <a className={styles.ctaLink} href="tel:+256774413516">Let&apos;s talk <span aria-hidden="true">↗</span></a>
+      </section>
     </div>
   );
-};
-
-export default ServicesPage;
+}

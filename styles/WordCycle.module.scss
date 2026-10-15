@@ -1,0 +1,10 @@
+.word {
+  display: inline;
+  white-space: nowrap;
+}
+
+@media (max-width: 400px) {
+  .word {
+    white-space: normal;
+  }
+}
