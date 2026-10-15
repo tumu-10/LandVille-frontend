@@ -348,7 +348,7 @@
 
 @media (max-width: 420px) {
   .heroCopy h1 {
-    font-size: 54px;
+    font-size: clamp(44px, 15vw, 54px);
   }
 
   .actions {
@@ -360,6 +360,25 @@
 
   .featureCard {
     margin-top: 30px;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape) {
+  .hero {
+    min-height: 680px;
+  }
+
+  .heroInner {
+    margin-top: 118px;
+    margin-bottom: 88px;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(48px, 9vw, 68px);
+  }
+
+  .featureCard {
+    margin-top: 24px;
   }
 }
 

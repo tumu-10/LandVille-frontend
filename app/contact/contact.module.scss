@@ -101,6 +101,7 @@
   align-items: center;
   gap: 16px;
   width: fit-content;
+  max-width: 100%;
   margin: 20px 0;
   color: #e7e4dd;
   font-size: 12px;
@@ -119,7 +120,12 @@
 
 .contactDetails > a span {
   display: grid;
+  min-width: 0;
   gap: 4px;
+}
+
+.contactDetails > a > span {
+  overflow-wrap: anywhere;
 }
 
 .contactDetails small {
@@ -244,10 +250,21 @@
   }
 
   .heroContent h1 {
-    font-size: 51px;
+    font-size: clamp(40px, 11vw, 51px);
   }
 
   .form {
     padding: 23px 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .heroContent {
+    width: calc(100% - 36px);
+  }
+
+  .contactBody {
+    padding-right: 18px;
+    padding-left: 18px;
   }
 }

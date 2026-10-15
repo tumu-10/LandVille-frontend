@@ -18,15 +18,56 @@
 }
 
 .logo {
+  position: relative;
   display: block;
   width: 158px;
   flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.logo::after {
+  position: absolute;
+  inset: -35% auto -35% -70%;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.48), transparent);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: skewX(-22deg);
 }
 
 .logo img {
   width: 100%;
   height: auto;
   object-fit: contain;
+  transition: filter 240ms ease, transform 240ms ease;
+}
+
+.logo:hover img,
+.logo:focus-visible img {
+  filter: brightness(1.12);
+  transform: scale(1.035);
+}
+
+.logo:hover::after,
+.logo:focus-visible::after {
+  animation: logoSheen 700ms ease-out;
+}
+
+@keyframes logoSheen {
+  0% {
+    left: -70%;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 140%;
+    opacity: 0;
+  }
 }
 
 .navLinks {
@@ -172,7 +213,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .navLinks,
-  .navToggle span {
+  .navToggle span,
+  .logo img,
+  .logo::after {
     transition: none;
+    animation: none;
   }
 }

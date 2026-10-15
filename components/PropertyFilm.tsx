@@ -23,12 +23,12 @@ export default function PropertyFilm({
 }: PropertyFilmProps) {
   return (
     <section className={styles.filmSection}>
-      <div className={styles.filmCopy}>
+      <div className={styles.filmCopy} data-reveal="left">
         <p className={styles.eyebrow}><span>{number}</span> {category}</p>
         <h2>{title}</h2>
         <p className={styles.description}>{description}</p>
       </div>
-      <figure className={styles.filmFrame}>
+      <figure className={styles.filmFrame} data-reveal="right">
         <video autoPlay loop muted playsInline preload="metadata" poster={poster} aria-label={posterAlt}>
           <source src={src} type="video/mp4" />
           Your browser does not support embedded video.

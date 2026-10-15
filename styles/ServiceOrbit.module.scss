@@ -327,7 +327,7 @@
 
   .orbitNode {
     width: 42px;
-    --orbit-radius: 120px;
+    --orbit-radius: min(120px, 35vw);
   }
 
   .orbitCore {
@@ -381,7 +381,7 @@
 
   .orbitNode {
     width: 38px;
-    --orbit-radius: 104px;
+    --orbit-radius: min(104px, 35vw);
   }
 
   .orbitCore {

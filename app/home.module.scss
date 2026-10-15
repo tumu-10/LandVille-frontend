@@ -11,10 +11,58 @@
 }
 
 .introduction {
+  position: relative;
+  isolation: isolate;
   max-width: 1500px;
   margin: 0 auto;
   padding-top: clamp(100px, 14vw, 190px);
   padding-bottom: clamp(96px, 12vw, 160px);
+}
+
+.introduction::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(ellipse at 16% 50%, rgba(255, 140, 0, 0.08), transparent 56%);
+  content: "";
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+.home :global([data-reveal]) {
+  transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:global(html.has-reveal-motion) .home :global([data-reveal]) {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0) rotate(var(--reveal-rotation, 0deg));
+}
+
+:global(html.has-reveal-motion) .home :global([data-reveal="left"]) {
+  transform: translate3d(-28px, 0, 0) rotate(var(--reveal-rotation, 0deg));
+}
+
+:global(html.has-reveal-motion) .home :global([data-reveal="right"]) {
+  transform: translate3d(28px, 0, 0) rotate(var(--reveal-rotation, 0deg));
+}
+
+:global(html.has-reveal-motion) .home :global([data-reveal].is-revealed) {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(var(--reveal-rotation, 0deg));
+}
+
+.principleList article:nth-child(2) {
+  transition-delay: 90ms;
+}
+
+.principleList article:nth-child(3) {
+  transition-delay: 180ms;
+}
+
+@media (hover: hover) {
+  .introduction:hover::before {
+    opacity: 1;
+  }
 }
 
 .sectionLabel {
@@ -150,11 +198,12 @@
 .imageFeature img,
 .imageSecondary img {
   object-fit: cover;
-  transition: transform 500ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  transition: transform 650ms cubic-bezier(0.2, 0.65, 0.3, 1), filter 400ms ease;
 }
 
 .imageFeature:hover img,
 .imageSecondary:hover img {
+  filter: brightness(1.08) saturate(1.08);
   transform: scale(1.035);
 }
 
@@ -194,6 +243,7 @@
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(20px, 2.4vw, 31px);
   font-weight: 400;
+  transition: color 240ms ease, transform 240ms ease;
 }
 
 .imageLabel i {
@@ -206,6 +256,12 @@
 .imageFeature:hover .imageLabel i,
 .imageSecondary:hover .imageLabel i {
   transform: translate(3px, -3px);
+}
+
+.imageFeature:hover .imageLabel b,
+.imageSecondary:hover .imageLabel b {
+  color: #ffcf91;
+  transform: translateX(3px);
 }
 
 .showcaseFooter {
@@ -245,8 +301,21 @@
   grid-template-columns: 38px 1fr auto;
   align-items: start;
   gap: 18px;
-  padding: 23px 0;
+  padding: 23px 14px;
   border-bottom: 1px solid var(--line);
+  background: linear-gradient(100deg, rgba(255, 140, 0, 0.09), rgba(255, 140, 0, 0) 72%);
+  background-position: -120% 0;
+  background-size: 220% 100%;
+  transition: background-position 400ms ease, border-color 300ms ease;
+}
+
+.home .principleList article[data-reveal] {
+  transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), transform 720ms cubic-bezier(0.22, 1, 0.36, 1), background-position 400ms ease, border-color 300ms ease;
+}
+
+.principleList article:hover {
+  border-color: rgba(255, 140, 0, 0.4);
+  background-position: 0 0;
 }
 
 .principleList article > span {
@@ -273,6 +342,12 @@
   color: #737985;
   font-size: 17px;
   font-style: normal;
+  transition: color 220ms ease, transform 220ms ease;
+}
+
+.principleList article:hover i {
+  color: var(--orange);
+  transform: translate(3px, -3px);
 }
 
 .closing {
@@ -288,6 +363,12 @@
   z-index: 0;
   object-fit: cover;
   object-position: center 52%;
+  transition: transform 1100ms cubic-bezier(0.2, 0.65, 0.3, 1), filter 700ms ease;
+}
+
+.closing:hover > img {
+  filter: brightness(1.08);
+  transform: scale(1.025);
 }
 
 .closingShade {
@@ -401,8 +482,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .home :global([data-reveal]),
+  .introduction::before,
   .imageFeature img,
-  .imageSecondary img {
+  .imageSecondary img,
+  .imageLabel b,
+  .principleList article,
+  .principleList i,
+  .closing > img {
     transition: none;
   }
 }

@@ -8,13 +8,17 @@ import styles from "@/styles/Preloader.module.scss";
 export default function Preloader() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
   const previousPath = useRef(pathname);
 
   useEffect(() => {
     if (!visible) return;
-    const timer = window.setTimeout(() => setVisible(false), 2200);
+    const timer = window.setTimeout(() => {
+      setVisible(false);
+      setInitialLoad(false);
+    }, initialLoad ? 7200 : 2200);
     return () => window.clearTimeout(timer);
-  }, [visible]);
+  }, [initialLoad, visible]);
 
   useEffect(() => {
     if (
@@ -29,7 +33,7 @@ export default function Preloader() {
   if (!visible) return null;
 
   return (
-    <div className={styles.preloader} role="status" aria-label="Loading LandVille Ventures">
+    <div className={`${styles.preloader} ${initialLoad ? styles.initialPreloader : ""}`} role="status" aria-label="Loading LandVille Ventures">
       <div className={styles.topline}>
         <span>LANDVILLE VENTURES</span>
         <span>KAMPALA&nbsp; / &nbsp;UGANDA</span>

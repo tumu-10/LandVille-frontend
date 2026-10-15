@@ -15,6 +15,14 @@
   pointer-events: none;
 }
 
+.initialPreloader {
+  animation-delay: 6.55s;
+}
+
+.initialPreloader .progress {
+  animation-duration: 6.65s;
+}
+
 .preloader::before,
 .preloader::after {
   position: absolute;

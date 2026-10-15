@@ -121,3 +121,10 @@
     gap: 6px;
   }
 }
+
+@media (max-width: 360px) {
+  .footer {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+}
