@@ -27,7 +27,7 @@ export default function Footer() {
         </div>
         <div className={styles.footerContact}>
           <span className={styles.label}>Start a conversation</span>
-          <a href="mailto:landvilleventures@gmail.com">landvilleventures@gmail.com</a>
+          <Link href="/contact">Send us a message</Link>
           <a href="tel:+256774413516">+256 774 413 516</a>
           <span>Kyanja, Kampala, Uganda</span>
         </div>

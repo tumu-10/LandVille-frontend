@@ -14,7 +14,6 @@ const organization = {
   logo: `${SITE_URL}/logo.png`,
   description:
     "LandVille Ventures is a Kampala, Uganda company working across real estate, property development, and technology.",
-  email: "landvilleventures@gmail.com",
   telephone: "+256774413516",
   address: {
     "@type": "PostalAddress",

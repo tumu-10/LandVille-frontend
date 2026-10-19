@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const recipient = "landvilleventures@gmail.com";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
@@ -41,11 +40,12 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL;
-  if (!apiKey || !from) {
-    console.error("Contact email is unavailable: RESEND_API_KEY and RESEND_FROM_EMAIL are required.");
+  const recipient = process.env.CONTACT_EMAIL?.trim();
+  const from = process.env.EMAIL_FROM || process.env.RESEND_FROM_EMAIL;
+  if (!apiKey || !from || !recipient || !emailPattern.test(recipient)) {
+    console.error("Contact email is unavailable: RESEND_API_KEY, EMAIL_FROM (or RESEND_FROM_EMAIL), and a valid CONTACT_EMAIL are required.");
     return NextResponse.json(
-      { error: "Message delivery is not configured yet. Please email us directly at landvilleventures@gmail.com." },
+      { error: "Message delivery is not configured yet. Please call us using the number on our contact page." },
       { status: 503 },
     );
   }
@@ -69,7 +69,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Contact email request to Resend failed:", error);
     return NextResponse.json(
-      { error: "We could not send your message. Please try again or email us directly at landvilleventures@gmail.com." },
+      { error: "We could not send your message. Please try again or call us using the number on our contact page." },
       { status: 502 },
     );
   }
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
   if (!response.ok) {
     console.error("Contact email provider returned status", response.status);
     return NextResponse.json(
-      { error: "We could not send your message. Please try again or email us directly at landvilleventures@gmail.com." },
+      { error: "We could not send your message. Please try again or call us using the number on our contact page." },
       { status: 502 },
     );
   }
