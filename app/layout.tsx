@@ -2,6 +2,7 @@ import "./globals.scss";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import MetaPixel from "@/components/MetaPixel";
 import Preloader from "@/components/Preloader";
 import { SITE_URL } from "./seo";
 
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Footer />
         <FloatingWhatsApp />
+        <MetaPixel />
       </body>
     </html>
   );

@@ -42,6 +42,9 @@ export default function Footer() {
       <div className={styles.footerBottom}>
         <span>© {new Date().getFullYear()} LandVille Ventures</span>
         <span>Built around places and possibility.</span>
+        <button className={styles.cookiePreferences} type="button" data-open-meta-preferences>
+          Cookie preferences
+        </button>
       </div>
     </footer>
   );

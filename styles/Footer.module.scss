@@ -98,6 +98,22 @@
   letter-spacing: 0.04em;
 }
 
+.cookiePreferences {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #a9adb5;
+  cursor: pointer;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cookiePreferences:hover {
+  color: #fff;
+}
+
 @media (max-width: 900px) {
   .footerMain {
     grid-template-columns: 1fr 1fr;

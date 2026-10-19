@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 import styles from "./contact.module.scss";
 import WordCycle from "@/components/WordCycle";
+import { trackMetaPixelEvent } from "@/lib/meta-pixel";
 
 export default function ContactForm() {
   const [isSending, setIsSending] = useState(false);
@@ -38,6 +39,7 @@ export default function ContactForm() {
       }
 
       form.reset();
+      trackMetaPixelEvent("Lead");
       setStatusMessage("Thanks for reaching out. Your message has been sent to our team.");
     } catch {
       setHasError(true);
