@@ -50,20 +50,29 @@ export async function POST(request: Request) {
     );
   }
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: [recipient],
-      reply_to: senderEmail,
-      subject: "New LandVille website enquiry",
-      text: `${senderMessage}\n\nFrom: ${senderName}\nEmail: ${senderEmail}`,
-    }),
-  });
+  let response: Response;
+  try {
+    response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: [recipient],
+        reply_to: senderEmail,
+        subject: "New LandVille website enquiry",
+        text: `${senderMessage}\n\nFrom: ${senderName}\nEmail: ${senderEmail}`,
+      }),
+    });
+  } catch (error) {
+    console.error("Contact email request to Resend failed:", error);
+    return NextResponse.json(
+      { error: "We could not send your message. Please try again or email us directly at landvilleventures@gmail.com." },
+      { status: 502 },
+    );
+  }
 
   if (!response.ok) {
     console.error("Contact email provider returned status", response.status);

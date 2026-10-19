@@ -20,16 +20,37 @@ npm run lint
 npm run build
 ```
 
-## Contact form
+## Contact form and Resend
 
-The contact form sends messages to `landvilleventures@gmail.com` through the Resend API. Add these variables to `.env.local`:
+The contact form sends messages to `landvilleventures@gmail.com` through Resend. The visitor's email is set as the reply-to address, so you can reply directly to the inquiry from Gmail. The sender address must use a domain verified with Resend; do not use the visitor's address as the sender.
+
+### Configure Resend
+
+1. Sign in to [Resend](https://resend.com/) and create an API key with permission to send email.
+2. In Resend, add the domain you will send from (recommended: `landvilleventures.com`) and complete its DNS verification using the exact records Resend provides. Add these records at the DNS provider for the domain; do not remove or replace existing records unless Resend's instructions specifically require it.
+3. Choose a sender address on that verified domain, for example `website@landvilleventures.com`.
+4. Configure the following variables locally in `.env.local` for development:
 
 ```env
 RESEND_API_KEY=re_your_api_key
-RESEND_FROM_EMAIL=LandVille Website <website@your-verified-domain.com>
+RESEND_FROM_EMAIL=LandVille Ventures <website@landvilleventures.com>
 ```
 
-Create an API key in Resend and verify the sending domain used for `RESEND_FROM_EMAIL`. Keep the API key server-side; do not use a `NEXT_PUBLIC_` variable. If delivery is not configured or the provider is unavailable, the form displays an error and directs visitors to the contact email.
+Use the actual verified sender address you configured, not the example if it differs. Keep the API key private and server-side: do not add it to source control, put it in client code, or prefix it with `NEXT_PUBLIC_`.
+
+### Configure Netlify production
+
+1. Open the LandVille site in the Netlify dashboard.
+2. Go to **Site configuration → Environment variables** (or **Project configuration → Environment variables** in the newer UI).
+3. Add `RESEND_API_KEY` with the secret API key from Resend and `RESEND_FROM_EMAIL` with the verified sender, including the display name if you want one (for example, `LandVille Ventures <website@landvilleventures.com>`).
+4. Make both variables available to the **Production** deploy context. Enable other contexts only if you also want contact submissions sent from deploy previews or branch deploys.
+5. Save the variables, then trigger a new production deploy so the Netlify Next.js runtime receives them.
+
+The API route reads those variables only on the server. It sends to `landvilleventures@gmail.com` and sets `reply_to` to the visitor's submitted address. Successful submissions are reported to the visitor only after Resend accepts the request. If configuration is missing or Resend rejects/unavailable, the form displays an error rather than a success message.
+
+### Test delivery
+
+After the production deploy is published, submit the contact form with an email address you can access and a test message. Confirm the message arrives in the `landvilleventures@gmail.com` inbox (check Spam if needed), and use **Reply** to verify the visitor's email is the reply-to. If it fails, inspect the Netlify deploy/function logs and confirm both environment variable names, the Resend API key, the verified domain, and the sender address match exactly. Never paste the API key into logs, source code, or a support message.
 
 ## Search engine setup
 
