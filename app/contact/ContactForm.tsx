@@ -64,12 +64,12 @@ export default function ContactForm() {
         <div className={styles.contactDetails}>
           <div className={styles.sectionLabel}>Find us, or drop us a line</div>
           <h2>We&apos;re here<br /><em>to help you move.</em></h2>
-          <a href="mailto:landvilleventures@gmail.com"><FiMail aria-hidden="true" /><span><small>Email</small>landvilleventures@gmail.com</span></a>
+          <a href="#contact-form"><FiMail aria-hidden="true" /><span><small>Send an enquiry</small>Use our contact form</span></a>
           <a href="tel:+256774413516"><FiPhone aria-hidden="true" /><span><small>Call</small>+256 774 413 516</span></a>
           <a href="https://www.google.com/maps/place/Kyanja+Mall/@0.3957122,32.5951815,15.04z/" target="_blank" rel="noreferrer"><FiMapPin aria-hidden="true" /><span><small>Visit</small>Kyanja, Kampala, Uganda</span></a>
           <p className={styles.locationNote}>Our office is in Kyanja, Kampala. Get in touch and we&apos;ll help you find us.</p>
         </div>
-        <form className={styles.form} onSubmit={sendMessage}>
+        <form id="contact-form" className={styles.form} onSubmit={sendMessage}>
           <h3>What can we help with?</h3>
           <p>Send our team a note and we&apos;ll get back to you as soon as we can.</p>
           <label htmlFor="contact-name">Your name</label>

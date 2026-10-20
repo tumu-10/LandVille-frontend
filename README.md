@@ -22,7 +22,7 @@ npm run build
 
 ## Contact form and Resend
 
-The contact form sends messages to `landvilleventures@gmail.com` through Resend. The visitor's email is set as the reply-to address, so you can reply directly to the inquiry from Gmail. The sender address must use a domain verified with Resend; do not use the visitor's address as the sender.
+The contact form sends messages to the inbox configured in the server-only `CONTACT_EMAIL` environment variable through Resend. The visitor's email is set as the reply-to address, so you can reply directly to the inquiry. The sender address must use a domain verified with Resend; do not use the visitor's address as the sender.
 
 ### Configure Resend
 
@@ -33,24 +33,25 @@ The contact form sends messages to `landvilleventures@gmail.com` through Resend.
 
 ```env
 RESEND_API_KEY=re_your_api_key
-RESEND_FROM_EMAIL=LandVille Ventures <website@landvilleventures.com>
+CONTACT_EMAIL=your-inbox@example.com
+EMAIL_FROM=LandVille Ventures <website@example.com>
 ```
 
-Use the actual verified sender address you configured, not the example if it differs. Keep the API key private and server-side: do not add it to source control, put it in client code, or prefix it with `NEXT_PUBLIC_`.
+Use your actual inbox and verified sender addresses, not the examples. Keep `RESEND_API_KEY` and `CONTACT_EMAIL` private and server-side: do not add them to source control, put them in client code, or prefix them with `NEXT_PUBLIC_`.
 
 ### Configure Netlify production
 
 1. Open the LandVille site in the Netlify dashboard.
 2. Go to **Site configuration → Environment variables** (or **Project configuration → Environment variables** in the newer UI).
-3. Add `RESEND_API_KEY` with the secret API key from Resend and `RESEND_FROM_EMAIL` with the verified sender, including the display name if you want one (for example, `LandVille Ventures <website@landvilleventures.com>`).
+3. Add `RESEND_API_KEY` with the secret API key from Resend, `CONTACT_EMAIL` with the destination inbox, and `EMAIL_FROM` with the verified sender (including a display name if you want one).
 4. Make both variables available to the **Production** deploy context. Enable other contexts only if you also want contact submissions sent from deploy previews or branch deploys.
 5. Save the variables, then trigger a new production deploy so the Netlify Next.js runtime receives them.
 
-The API route reads those variables only on the server. It sends to `landvilleventures@gmail.com` and sets `reply_to` to the visitor's submitted address. Successful submissions are reported to the visitor only after Resend accepts the request. If configuration is missing or Resend rejects/unavailable, the form displays an error rather than a success message.
+The API route reads those variables only on the server and sets `reply_to` to the visitor's submitted address. `RESEND_FROM_EMAIL` is also accepted as a backwards-compatible sender variable. Successful submissions are reported to the visitor only after Resend accepts the request. If configuration is missing or Resend rejects/unavailable, the form displays an error rather than a success message.
 
 ### Test delivery
 
-After the production deploy is published, submit the contact form with an email address you can access and a test message. Confirm the message arrives in the `landvilleventures@gmail.com` inbox (check Spam if needed), and use **Reply** to verify the visitor's email is the reply-to. If it fails, inspect the Netlify deploy/function logs and confirm both environment variable names, the Resend API key, the verified domain, and the sender address match exactly. Never paste the API key into logs, source code, or a support message.
+After the production deploy is published, submit the contact form with an email address you can access and a test message. Confirm the message arrives in the inbox configured as `CONTACT_EMAIL` (check Spam if needed), and use **Reply** to verify the visitor's email is the reply-to. If it fails, inspect the Netlify deploy/function logs and confirm the environment variable names, Resend API key, verified domain, and sender address match exactly. Never paste the API key or inbox address into logs, source code, or a support message.
 
 ## Search engine setup
 
